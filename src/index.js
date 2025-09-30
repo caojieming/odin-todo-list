@@ -1,11 +1,6 @@
 import "./styles.css";
 import { Project } from "./project.js";
 
-// import exampleImage from "./img/example.jpeg";
-// const image = document.createElement("img");
-// image.src = exampleImage;
-// document.body.appendChild(image);
-
 /*
 Ideas:
 overall hierarchy will go: project -> section -> (todo) item
@@ -18,7 +13,8 @@ sections + items will be displayed on the middle/right sides of the screen
 class Script {
 
     constructor() {
-
+        const firstProject = Project("First project", "This is the first project.");
+        
     }
     
 }

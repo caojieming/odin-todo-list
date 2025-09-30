@@ -1,3 +1,42 @@
+* {
+    outline: 1px solid red;
+}
+
+
+/* general shape of app (sidebar + main content) */
+html, body {
+    /* this just makes sure the body fills the entire screen vertically */
+    margin: 0px;
+    height: 100%;
+}
 body {
-  background-color: rebeccapurple;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+#sidebar {
+    padding: 10px;
+}
+#content {
+    padding: 10px;
+}
+
+
+/* sidebar */
+#sidebar {
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+}
+#sidebar > * {
+
+}
+
+
+/* main content */
+#content {
+    display: flex;
+    flex-direction: column;
+}
+#content > * {
+
 }
