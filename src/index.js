@@ -37,10 +37,6 @@ class Controller {
         
     }
 
-    addProject(proj) {
-        this.projects.push(proj);
-        this.addUIProject(proj);
-    }
 
     openProjectTab(event) {
         const element = event.target;
@@ -54,14 +50,14 @@ class Controller {
             // reset content section
             this.contentDiv.textContent = "";
 
-            // add title
+            // project title
             const title = document.createElement("div");
             title.classList.add("project-title");
             title.setAttribute("id", curProject.id);
             title.textContent = curProject.title;
             this.contentDiv.appendChild(title);
 
-            // add description
+            // project description
             const description = document.createElement("div");
             description.classList.add("project-description");
             description.textContent = curProject.description;
@@ -70,26 +66,31 @@ class Controller {
             // add all todos
             const todoList = curProject.todos
             for(let i = 0; i < todoList.length; i++) {
+                // todo div
                 const todoDiv = document.createElement("div");
                 todoDiv.classList.add("project-todo");
                 todoDiv.setAttribute("id", todoList[i].id);
                 this.contentDiv.appendChild(todoDiv);
 
+                // todo title
                 const todoTitle = document.createElement("div");
                 todoTitle.classList.add("project-todo-title");
                 todoTitle.textContent = todoList[i].title;
                 todoDiv.appendChild(todoTitle);
 
+                // todo description
                 const todoDescription = document.createElement("div");
                 todoDescription.classList.add("project-todo-description");
                 todoDescription.textContent = todoList[i].description;
                 todoDiv.appendChild(todoDescription);
 
+                // todo due date
                 const todoDueDate = document.createElement("div");
                 todoDueDate.classList.add("project-todo-description");
                 todoDueDate.textContent = todoList[i].dueDate;
                 todoDiv.appendChild(todoDueDate);
 
+                // todo priority
                 const todoPriority = document.createElement("div");
                 todoPriority.classList.add("project-todo-description");
                 todoPriority.textContent = todoList[i].priority;
@@ -126,6 +127,11 @@ class Controller {
     status.appendChild(statusText);
     myPara.setAttribute("id", "id_you_like");
     */
+
+    addProject(proj) {
+        this.projects.push(proj);
+        this.addUIProject(proj);
+    }
 
     addUIProject(project) {
         const projectTab = document.createElement("button");
