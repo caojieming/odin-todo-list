@@ -23,12 +23,21 @@ body {
 
 /* sidebar */
 #sidebar {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+
     background-color: aliceblue;
+
+    font-size: 30px;
+
     display: flex;
     flex-direction: column;
 }
+/* sidebar contents */
 #sidebar > * {
-
+    margin-top: 20px;
 }
 
 /* project tabs */
@@ -45,6 +54,7 @@ body {
 
 /* main content */
 #content {
+    padding: 30px;
     display: flex;
     flex-direction: column;
 }

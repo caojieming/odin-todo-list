@@ -19,15 +19,27 @@ class Controller {
     constructor() {
         this.projects = [];
         const firstProject = new Project("First project", "This is the first project.");
-        firstProject.addTodo("task 1", "panic roll", format(new Date(2014, 1, 11), "MM/dd/yyyy"), 10);
+        firstProject.addTodo("task 1", "look at enemy", format(new Date(2014, 1, 11), "MM/dd/yyyy"), 10);
+        firstProject.addTodo("task 2", "panic roll", format(new Date(2016, 2, 19), "MM/dd/yyyy"), 3);
+        firstProject.addTodo("task 3", "get hit anyways", format(new Date(2019, 12, 31), "MM/dd/yyyy"), 7);
+
+        this.addProject(firstProject);
+
+        const secondProject = new Project("Second project", "This is the second project. Yippee!");
+        secondProject.addTodo("task 1", "curl into a ball", format(new Date(2014, 1, 11), "MM/dd/yyyy"), 10);
+        secondProject.addTodo("task 2", "try not to cry", format(new Date(2016, 2, 19), "MM/dd/yyyy"), 3);
+        secondProject.addTodo("task 3", "cry", format(new Date(2019, 12, 31), "MM/dd/yyyy"), 7);
         
-        this.projects.push(firstProject);
-        this.addUIProject(firstProject);
+        this.addProject(secondProject);
 
-        const projectBtns = document.querySelector(".project-tab");
-        projectBtns.addEventListener("click", this.openProjectTab.bind(this));
+        this.sidebarDiv.addEventListener("click", this.openProjectTab.bind(this));
 
-        // next step: create 1 full project (firstProject) and display it
+        
+    }
+
+    addProject(proj) {
+        this.projects.push(proj);
+        this.addUIProject(proj);
     }
 
     openProjectTab(event) {
@@ -43,11 +55,46 @@ class Controller {
             this.contentDiv.textContent = "";
 
             // add title
-            const projectTitle = document.createElement("div");
-            projectTitle.classList.add("project-tab");
-            projectTitle.setAttribute("id", curProject.id);
-            projectTitle.textContent = curProject.title;
-            this.contentDiv.appendChild(projectTitle);
+            const title = document.createElement("div");
+            title.classList.add("project-title");
+            title.setAttribute("id", curProject.id);
+            title.textContent = curProject.title;
+            this.contentDiv.appendChild(title);
+
+            // add description
+            const description = document.createElement("div");
+            description.classList.add("project-description");
+            description.textContent = curProject.description;
+            this.contentDiv.appendChild(description);
+
+            // add all todos
+            const todoList = curProject.todos
+            for(let i = 0; i < todoList.length; i++) {
+                const todoDiv = document.createElement("div");
+                todoDiv.classList.add("project-todo");
+                todoDiv.setAttribute("id", todoList[i].id);
+                this.contentDiv.appendChild(todoDiv);
+
+                const todoTitle = document.createElement("div");
+                todoTitle.classList.add("project-todo-title");
+                todoTitle.textContent = todoList[i].title;
+                todoDiv.appendChild(todoTitle);
+
+                const todoDescription = document.createElement("div");
+                todoDescription.classList.add("project-todo-description");
+                todoDescription.textContent = todoList[i].description;
+                todoDiv.appendChild(todoDescription);
+
+                const todoDueDate = document.createElement("div");
+                todoDueDate.classList.add("project-todo-description");
+                todoDueDate.textContent = todoList[i].dueDate;
+                todoDiv.appendChild(todoDueDate);
+
+                const todoPriority = document.createElement("div");
+                todoPriority.classList.add("project-todo-description");
+                todoPriority.textContent = todoList[i].priority;
+                todoDiv.appendChild(todoPriority);
+            }
         }
     }
 
@@ -60,15 +107,15 @@ class Controller {
         return -1;
     }
 
-    getTodoIndexFromID(inputProject, inputID) {
-        const todoList = inputProject.todos;
-        for(let i = 0; i < todoList.length; i++) {
-            if(todoList.id == inputID) {
-                return i;
-            }
-        }
-        return -1;
-    }
+    // getTodoIndexFromID(inputProject, inputID) {
+    //     const todoList = inputProject.todos;
+    //     for(let i = 0; i < todoList.length; i++) {
+    //         if(todoList.id == inputID) {
+    //             return i;
+    //         }
+    //     }
+    //     return -1;
+    // }
 
     /* 
     const toDelete = document.querySelectorAll("#table tr:not(:first-child)");
