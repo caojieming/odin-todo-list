@@ -30,18 +30,39 @@ body {
 
     background-color: aliceblue;
 
-    font-size: 30px;
-
     display: flex;
     flex-direction: column;
 }
 /* sidebar contents */
 #sidebar > * {
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-/* project tabs */
+/* sidebar top section */
+#sidebar-top {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+#top-title {
+    font-size: 30px;
+}
+#create-project-btn {
+    font-size: 24px;
+    border: 1px solid gray;
+    width: 36px;
+    height: 36px;
+}
+
+/* sidebar projects section */
+#projects {
+    display: flex;
+    flex-direction: column;
+}
+/* individual project tabs */
 .project-tab {
+    font-size: 16px;
+
     background: none;
 	color: inherit;
 	border: none;
@@ -49,6 +70,8 @@ body {
 	/* font: inherit; */
 	cursor: pointer;
 	outline: inherit;
+
+    margin-bottom: 20px;
 }
 
 
