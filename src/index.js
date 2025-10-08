@@ -5,9 +5,10 @@ import { Project } from "./project.js";
 import { ProjectContent } from "./project-content.js";
 import { CreateProject } from "./create-project.js";
 import { ProjectSidebar } from "./project-sidebar.js";
+import { AddTodoMenu } from "./add-todo-menu.js";
 
 /*
-Ideas:
+Idea:
 overall hierarchy will go: project -> section -> (todo) item
 projects contain sections, sections contain items
 
@@ -17,9 +18,7 @@ sections + items will be displayed on the middle/right sides of the screen
 
 /*
 Todo list, roughly in order:
-- coding adding projects in Controller()
-- removing projects
-- adding and removing todo
+- adding and removing todos
 */
 
 class Controller {
@@ -57,11 +56,12 @@ class Controller {
         // click Delete on sidebar -> delete project from sidbar and projects[]
         this.projectsDiv.addEventListener("click", this.deleteProject.bind(this));
 
-
         
     }
 
 
+
+    
 
     deleteProject(event) {
         const element = event.target;
@@ -76,10 +76,10 @@ class Controller {
 
         // remove from UI
         this.removeChildAtIndex(this.projectsDiv, projectIdx);
-        
+
         // also reset content if project was just deleted
-        const currContentTitle = document.querySelector(".project-title");
-        if(currContentTitle.id === projectID) {
+        const currContentTitle = document.querySelector("#project-title");
+        if(currContentTitle.classList.contains(projectID)) {
             this.contentDiv.textContent = '';
         }
     }
@@ -121,6 +121,11 @@ class Controller {
         if(projectIdx != -1) {
             new ProjectContent(this.projects[projectIdx]);
         }
+
+        // click Add a Todo item on content -> open a todo creation menu underneath button
+        const addTodoBtn = document.querySelector("#add-todo-btn");
+        addTodoBtn.addEventListener("click", this.addTodoBtnClick.bind(this));
+
     }
     getProjectIndexFromID(inputID) {
         for(let i = 0; i < this.projects.length; i++) {
@@ -129,6 +134,26 @@ class Controller {
             }
         }
         return -1;
+    }
+    addTodoBtnClick() {
+        const addTodoBtn = document.querySelector("#add-todo-btn");
+
+        if(addTodoBtn.textContent === "Add a Todo item") {
+            // generate the todo creation menu underneath the button
+            new AddTodoMenu();
+            const addTodoBtn = document.querySelector("#create-todo-btn");
+        }
+
+        else if(addTodoBtn.textContent === "Cancel creating new Todo") {
+            // remove all but the first child in #add-todo-div (which is #add-todo-btn)
+            const addTodoDiv = document.querySelector("#add-todo-div");
+            while(addTodoDiv.childNodes.length > 1) {
+                addTodoDiv.removeChild(addTodoDiv.lastChild);
+            }
+            // set its text back to normal
+            addTodoBtn.textContent = "Add a Todo item";
+        }
+        
     }
 
 

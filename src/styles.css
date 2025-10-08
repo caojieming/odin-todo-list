@@ -2,6 +2,10 @@
     outline: 1px solid red;
 }
 
+button {
+    display: block;
+}
+
 
 /* general shape of app (sidebar + main content) */
 html, body {
@@ -101,16 +105,23 @@ body {
     display: flex;
     flex-direction: column;
 }
-#content > * {
-    
-}
-#content > .project-title {
+#content > #project-title {
     font-size: 30px;
     margin-bottom: 20px;
 }
-#content > .project-description {
+#content > #project-description {
     font-size: 22px;
     margin-bottom: 30px;
+}
+#content > #add-todo-div {
+    margin-bottom: 20px;
+}
+#content > #add-todo-btn {
+    font-size: 16px;
+    width: min-content;
+}
+#content > #add-todo-div > * {
+    margin-bottom: 4px;
 }
 #content > .project-todo {
     font-size: 18px;
