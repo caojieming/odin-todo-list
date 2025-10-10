@@ -2,10 +2,13 @@ import { format } from "date-fns";
 
 import "./styles.css";
 import { Project } from "./project.js";
-import { ProjectContent } from "./project-content.js";
-import { CreateProject } from "./create-project.js";
-import { ProjectSidebar } from "./project-sidebar.js";
-import { AddTodoMenu } from "./add-todo-menu.js";
+import { OpenProjectContent } from "./open-project-content.js";
+import { CreateProjectMenu } from "./create-project-menu.js";
+import { CreateProjectTab } from "./create-project-tab.js";
+import { CreateTodoMenu } from "./create-todo-menu.js";
+import { DeleteProjectTab } from "./delete-project-tab.js";
+import { CreateTodoItem } from "./create-todo-item.js";
+import { Todo } from "./todo.js";
 
 /*
 Idea:
@@ -31,16 +34,22 @@ class Controller {
         this.projects = [];
 
         const firstProject = new Project("First project", "This is the first project.");
-        firstProject.addTodo("task 1", "look at enemy", format(new Date(2014, 1, 11), "MM/dd/yyyy"), 10);
-        firstProject.addTodo("task 2", "panic roll", format(new Date(2016, 2, 19), "MM/dd/yyyy"), 3);
-        firstProject.addTodo("task 3", "get hit anyways", format(new Date(2019, 12, 31), "MM/dd/yyyy"), 7);
+        const p1task1 = new Todo("task 1", 10, format(new Date(2014, 1, 11), "MM/dd/yyyy"), "look at enemy");
+        const p1task2 = new Todo("task 2", 3, format(new Date(2016, 2, 19), "MM/dd/yyyy"), "panic roll");
+        const p1task3 = new Todo("task 3", 7, format(new Date(2019, 12, 31), "MM/dd/yyyy"), "get hit anyways");
+        firstProject.addTodo(p1task1);
+        firstProject.addTodo(p1task2);
+        firstProject.addTodo(p1task3);
 
         this.addProject(firstProject);
 
         const secondProject = new Project("Second project", "This is the second project. Yippee!");
-        secondProject.addTodo("task 1", "curl into a ball", format(new Date(2014, 1, 11), "MM/dd/yyyy"), 10);
-        secondProject.addTodo("task 2", "try not to cry", format(new Date(2016, 2, 19), "MM/dd/yyyy"), 3);
-        secondProject.addTodo("task 3", "cry", format(new Date(2019, 12, 31), "MM/dd/yyyy"), 7);
+        const p2task1 = new Todo("task 1", 10, format(new Date(2014, 1, 11), "MM/dd/yyyy"), "curl into a ball");
+        const p2task2 = new Todo("task 2", 3, format(new Date(2016, 2, 19), "MM/dd/yyyy"), "try not to cry");
+        const p2task3 = new Todo("task 3", 7, format(new Date(2019, 12, 31), "MM/dd/yyyy"), "cry");
+        secondProject.addTodo(p2task1);
+        secondProject.addTodo(p2task2);
+        secondProject.addTodo(p2task3);
         
         this.addProject(secondProject);
 
@@ -62,7 +71,7 @@ class Controller {
 
 
     
-
+    
     deleteProject(event) {
         const element = event.target;
         // exits function if element is not a delete-project-btn
@@ -74,27 +83,16 @@ class Controller {
         // delete project from projects[]
         this.projects.splice(projectIdx, 1);
 
-        // remove from UI
-        this.removeChildAtIndex(this.projectsDiv, projectIdx);
-
-        // also reset content if project was just deleted
-        const currContentTitle = document.querySelector("#project-title");
-        if(currContentTitle.classList.contains(projectID)) {
-            this.contentDiv.textContent = '';
-        }
+        // delete UI content
+        new DeleteProjectTab(projectID, projectIdx);
     }
-    removeChildAtIndex(parentElement, index) {
-        const children = parentElement.children;
-        if(children.length > 0) {
-            parentElement.removeChild(children[index]);
-        }
-    }
+    
 
 
 
     // opening the project creation UI onto content
     createProject() {
-        new CreateProject();
+        new CreateProjectMenu();
 
         // click finish button on create project content -> add project to sidebar and projects[]
         const finishProjectBtn = document.querySelector("#finish-project-btn");
@@ -119,7 +117,7 @@ class Controller {
         const projectIdx = this.getProjectIndexFromID(projectID);
 
         if(projectIdx != -1) {
-            new ProjectContent(this.projects[projectIdx]);
+            new OpenProjectContent(this.projects[projectIdx]);
         }
 
         // click Add a Todo item on content -> open a todo creation menu underneath button
@@ -127,21 +125,16 @@ class Controller {
         addTodoBtn.addEventListener("click", this.addTodoBtnClick.bind(this));
 
     }
-    getProjectIndexFromID(inputID) {
-        for(let i = 0; i < this.projects.length; i++) {
-            if(this.projects[i].id == inputID) {
-                return i;
-            }
-        }
-        return -1;
-    }
     addTodoBtnClick() {
         const addTodoBtn = document.querySelector("#add-todo-btn");
 
         if(addTodoBtn.textContent === "Add a Todo item") {
             // generate the todo creation menu underneath the button
-            new AddTodoMenu();
-            const addTodoBtn = document.querySelector("#create-todo-btn");
+            new CreateTodoMenu();
+
+            // click Create Todo Item button -> add a todo object to project and add it to UI
+            const createTodoBtn = document.querySelector("#create-todo-btn");
+            createTodoBtn.addEventListener("click", this.createTodoBtnClick.bind(this));
         }
 
         else if(addTodoBtn.textContent === "Cancel creating new Todo") {
@@ -153,7 +146,23 @@ class Controller {
             // set its text back to normal
             addTodoBtn.textContent = "Add a Todo item";
         }
-        
+    }
+    createTodoBtnClick() {
+        const todoName = document.querySelector("#todo-name-input").value;
+        const todoPriority = document.querySelector("#todo-priority-input").value;
+        const todoDueDate = document.querySelector("#todo-duedate-input").value;
+        const todoDescription = document.querySelector("#todo-description-input").value;
+        const newTodo = new Todo(todoName, todoPriority, todoDueDate, todoDescription);
+
+        // get current project
+        const projID = document.querySelector("#project-title").classList[0];
+        const projIdx = this.getProjectIndexFromID(projID);
+
+        // add to project object list
+        this.projects[projIdx].addTodo(newTodo);
+
+        // add to UI
+        new CreateTodoItem(newTodo);
     }
 
 
@@ -163,19 +172,19 @@ class Controller {
         this.addProjectTab(proj);
     }
     addProjectTab(proj) {
-        new ProjectSidebar(proj);
+        new CreateProjectTab(proj);
     }
 
 
-    /* For reference
-    const toDelete = document.querySelectorAll("#table tr:not(:first-child)");
-    const table = document.querySelector("#table");
-    const entry = document.createElement("tr");
-    entry.classList.add("entry");
-    id.textContent = idStr;
-    status.appendChild(statusText);
-    myPara.setAttribute("id", "id_you_like");
-    */
+    // useful little auxillary func
+    getProjectIndexFromID(inputID) {
+        for(let i = 0; i < this.projects.length; i++) {
+            if(this.projects[i].id == inputID) {
+                return i;
+            }
+        }
+        return -1;
+    }
     
 }
 new Controller();

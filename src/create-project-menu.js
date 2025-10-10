@@ -1,4 +1,4 @@
-export const CreateProject = class CreateProject {
+export const CreateProjectMenu = class CreateProjectMenu {
 
     contentDiv = document.querySelector("#content");
 

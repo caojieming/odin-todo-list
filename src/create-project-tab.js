@@ -1,6 +1,6 @@
 import { Project } from "./project";
 
-export const ProjectSidebar = class ProjectSidebar {
+export const CreateProjectTab = class CreateProjectTab {
 
     projectsDiv = document.querySelector("#projects");
 

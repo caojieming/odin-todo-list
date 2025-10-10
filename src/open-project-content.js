@@ -1,6 +1,6 @@
 import { Project } from "./project.js";
 
-export const ProjectContent = class ProjectContent {
+export const OpenProjectContent = class OpenProjectContent {
     
     contentDiv = document.querySelector("#content");
 
@@ -44,7 +44,7 @@ export const ProjectContent = class ProjectContent {
             // todo title
             const todoTitle = document.createElement("div");
             todoTitle.classList.add("project-todo-title");
-            todoTitle.textContent = todoList[i].title;
+            todoTitle.textContent = todoList[i].name;
             todoDiv.appendChild(todoTitle);
 
             // todo priority

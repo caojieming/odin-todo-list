@@ -9,8 +9,8 @@ export const Project = class Project {
         this.todos = [];
     }
 
-    addTodo(title, description, duedate, priority) {
-        this.todos.push(new Todo(title, description, duedate, priority));
+    addTodo(todoItem) {
+        this.todos.push(todoItem);
     }
 
 };

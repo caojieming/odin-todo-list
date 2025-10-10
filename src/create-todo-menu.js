@@ -1,4 +1,4 @@
-export const AddTodoMenu = class AddTodoMenu {
+export const CreateTodoMenu = class CreateTodoMenu {
 
     addTodoDiv = document.querySelector("#add-todo-div");
 
