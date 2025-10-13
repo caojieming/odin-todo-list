@@ -1,3 +1,4 @@
+import { CreateTodoItem } from "./create-todo-item.js";
 import { Project } from "./project.js";
 
 export const OpenProjectContent = class OpenProjectContent {
@@ -35,35 +36,7 @@ export const OpenProjectContent = class OpenProjectContent {
         // add all todos
         const todoList = project.todos
         for(let i = 0; i < todoList.length; i++) {
-            // todo div
-            const todoDiv = document.createElement("div");
-            todoDiv.classList.add("project-todo");
-            todoDiv.setAttribute("id", todoList[i].id);
-            this.contentDiv.appendChild(todoDiv);
-
-            // todo title
-            const todoTitle = document.createElement("div");
-            todoTitle.classList.add("project-todo-title");
-            todoTitle.textContent = todoList[i].name;
-            todoDiv.appendChild(todoTitle);
-
-            // todo due date
-            const todoDueDate = document.createElement("div");
-            todoDueDate.classList.add("project-todo-description");
-            todoDueDate.textContent = "Due date: " + todoList[i].dueDate;
-            todoDiv.appendChild(todoDueDate);
-
-            // todo priority
-            const todoPriority = document.createElement("div");
-            todoPriority.classList.add("project-todo-description");
-            todoPriority.textContent = "Priority: " + todoList[i].priority;
-            todoDiv.appendChild(todoPriority);
-
-            // todo description
-            const todoDescription = document.createElement("div");
-            todoDescription.classList.add("project-todo-description");
-            todoDescription.textContent = todoList[i].description;
-            todoDiv.appendChild(todoDescription);
+            new CreateTodoItem(todoList[i]);
         }
         
     }
