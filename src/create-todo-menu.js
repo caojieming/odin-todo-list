@@ -8,7 +8,6 @@ export const CreateTodoMenu = class CreateTodoMenu {
         addTodoBtn.textContent = "Cancel creating new Todo";
 
 
-
         // name header
         const nameHeader = document.createElement("div");
         nameHeader.setAttribute("id", "todo-name-header");
@@ -23,12 +22,12 @@ export const CreateTodoMenu = class CreateTodoMenu {
         // due date header
         const dueDateHeader = document.createElement("div");
         dueDateHeader.setAttribute("id", "todo-duedate-header");
-        dueDateHeader.textContent = "Due Date: ";
+        dueDateHeader.textContent = "Due Date (both Date and Time required): ";
         this.addTodoDiv.appendChild(dueDateHeader);
         // due date input
         const dueDateInput = document.createElement("input");
         dueDateInput.setAttribute("id", "todo-duedate-input");
-        dueDateInput.setAttribute("placeholder", "MM/dd/yyyy");
+        dueDateInput.setAttribute("type", "datetime-local");
         this.addTodoDiv.appendChild(dueDateInput);
 
         // priority header

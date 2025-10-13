@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+// import { format } from "date-fns";
 
 import "./styles.css";
 import { Project } from "./project.js";
@@ -34,9 +34,12 @@ class Controller {
         this.projects = [];
 
         const firstProject = new Project("First project", "This is the first project.");
-        const p1task1 = new Todo("task 1", format(new Date(2014, 1, 11), "MM/dd/yyyy"), "high", "look at enemy");
-        const p1task2 = new Todo("task 2", format(new Date(2016, 2, 19), "MM/dd/yyyy"), "low", "panic roll");
-        const p1task3 = new Todo("task 3", format(new Date(2019, 12, 31), "MM/dd/yyyy"), "medium", "get hit anyways");
+        // const p1task1 = new Todo("task 1", format(new Date(2014, 1, 11), "MM/dd/yyyy"), "high", "look at enemy");
+        // const p1task2 = new Todo("task 2", format(new Date(2016, 2, 19), "MM/dd/yyyy"), "low", "panic roll");
+        // const p1task3 = new Todo("task 3", format(new Date(2019, 12, 31), "MM/dd/yyyy"), "medium", "get hit anyways");
+        const p1task1 = new Todo("task 1", "2014-01-12T00:00", "high", "look at enemy");
+        const p1task2 = new Todo("task 2", "2016-02-19T00:00", "low", "panic roll");
+        const p1task3 = new Todo("task 3", "2019-12-31T00:00", "medium", "get hit anyways");
         firstProject.addTodo(p1task1);
         firstProject.addTodo(p1task2);
         firstProject.addTodo(p1task3);
@@ -44,9 +47,12 @@ class Controller {
         this.addProject(firstProject);
 
         const secondProject = new Project("Second project", "This is the second project. Yippee!");
-        const p2task1 = new Todo("task 1", format(new Date(2014, 1, 11), "MM/dd/yyyy"), "medium", "curl into a ball");
-        const p2task2 = new Todo("task 2", format(new Date(2016, 2, 19), "MM/dd/yyyy"), "low", "try not to cry");
-        const p2task3 = new Todo("task 3", format(new Date(2019, 12, 31), "MM/dd/yyyy"), "high", "cry");
+        // const p2task1 = new Todo("task 1", format(new Date(2014, 1, 11), "MM/dd/yyyy"), "medium", "curl into a ball");
+        // const p2task2 = new Todo("task 2", format(new Date(2016, 2, 19), "MM/dd/yyyy"), "low", "try not to cry");
+        // const p2task3 = new Todo("task 3", format(new Date(2019, 12, 31), "MM/dd/yyyy"), "high", "cry");
+        const p2task1 = new Todo("task 1", "2014-01-12T00:00", "medium", "curl into a ball");
+        const p2task2 = new Todo("task 2", "2016-02-19T00:00", "low", "try not to cry");
+        const p2task3 = new Todo("task 3", "2019-12-31T00:00", "high", "cry");
         secondProject.addTodo(p2task1);
         secondProject.addTodo(p2task2);
         secondProject.addTodo(p2task3);
@@ -152,7 +158,7 @@ class Controller {
         const todoPriority = document.querySelector("#todo-priority-input").value;
         const todoDueDate = document.querySelector("#todo-duedate-input").value;
         const todoDescription = document.querySelector("#todo-description-input").value;
-        const newTodo = new Todo(todoName, todoPriority, todoDueDate, todoDescription);
+        const newTodo = new Todo(todoName, todoDueDate, todoPriority, todoDescription);
 
         // get current project
         const projID = document.querySelector("#project-title").classList[0];

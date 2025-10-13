@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const CreateTodoItem = class CreateTodoItem {
 
     contentDiv = document.querySelector("#content");
@@ -18,7 +20,16 @@ export const CreateTodoItem = class CreateTodoItem {
         // todo due date
         const todoDueDate = document.createElement("div");
         todoDueDate.classList.add("project-todo-description");
-        todoDueDate.textContent = "Due date: " + todo.dueDate;
+        const date = new Date(todo.dueDate);
+        const dateFormat = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit'
+        };
+        todoDueDate.textContent = "Due date: " + date.toLocaleTimeString("en-US", dateFormat);
         todoDiv.appendChild(todoDueDate);
 
         // todo priority
