@@ -1,10 +1,10 @@
 export const Todo = class Todo {
     
-    constructor(name, priority, dueDate, description) {
+    constructor(name, dueDate, priority, description) {
         this.id = crypto.randomUUID()
         this.name = name;
-        this.description = description;
         this.dueDate = dueDate;
+        this.description = description;
         this.priority = priority;
     }
 

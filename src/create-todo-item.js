@@ -15,17 +15,17 @@ export const CreateTodoItem = class CreateTodoItem {
         todoTitle.textContent = todo.name;
         todoDiv.appendChild(todoTitle);
 
-        // todo priority
-        const todoPriority = document.createElement("div");
-        todoPriority.classList.add("project-todo-description");
-        todoPriority.textContent = "Priority: " + todo.priority;
-        todoDiv.appendChild(todoPriority);
-
         // todo due date
         const todoDueDate = document.createElement("div");
         todoDueDate.classList.add("project-todo-description");
         todoDueDate.textContent = "Due date: " + todo.dueDate;
         todoDiv.appendChild(todoDueDate);
+
+        // todo priority
+        const todoPriority = document.createElement("div");
+        todoPriority.classList.add("project-todo-description");
+        todoPriority.textContent = "Priority: " + todo.priority;
+        todoDiv.appendChild(todoPriority);
 
         // todo description
         const todoDescription = document.createElement("div");

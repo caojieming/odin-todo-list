@@ -34,9 +34,9 @@ class Controller {
         this.projects = [];
 
         const firstProject = new Project("First project", "This is the first project.");
-        const p1task1 = new Todo("task 1", 10, format(new Date(2014, 1, 11), "MM/dd/yyyy"), "look at enemy");
-        const p1task2 = new Todo("task 2", 3, format(new Date(2016, 2, 19), "MM/dd/yyyy"), "panic roll");
-        const p1task3 = new Todo("task 3", 7, format(new Date(2019, 12, 31), "MM/dd/yyyy"), "get hit anyways");
+        const p1task1 = new Todo("task 1", format(new Date(2014, 1, 11), "MM/dd/yyyy"), "high", "look at enemy");
+        const p1task2 = new Todo("task 2", format(new Date(2016, 2, 19), "MM/dd/yyyy"), "low", "panic roll");
+        const p1task3 = new Todo("task 3", format(new Date(2019, 12, 31), "MM/dd/yyyy"), "medium", "get hit anyways");
         firstProject.addTodo(p1task1);
         firstProject.addTodo(p1task2);
         firstProject.addTodo(p1task3);
@@ -44,9 +44,9 @@ class Controller {
         this.addProject(firstProject);
 
         const secondProject = new Project("Second project", "This is the second project. Yippee!");
-        const p2task1 = new Todo("task 1", 10, format(new Date(2014, 1, 11), "MM/dd/yyyy"), "curl into a ball");
-        const p2task2 = new Todo("task 2", 3, format(new Date(2016, 2, 19), "MM/dd/yyyy"), "try not to cry");
-        const p2task3 = new Todo("task 3", 7, format(new Date(2019, 12, 31), "MM/dd/yyyy"), "cry");
+        const p2task1 = new Todo("task 1", format(new Date(2014, 1, 11), "MM/dd/yyyy"), "medium", "curl into a ball");
+        const p2task2 = new Todo("task 2", format(new Date(2016, 2, 19), "MM/dd/yyyy"), "low", "try not to cry");
+        const p2task3 = new Todo("task 3", format(new Date(2019, 12, 31), "MM/dd/yyyy"), "high", "cry");
         secondProject.addTodo(p2task1);
         secondProject.addTodo(p2task2);
         secondProject.addTodo(p2task3);

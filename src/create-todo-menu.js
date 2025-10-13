@@ -20,17 +20,6 @@ export const CreateTodoMenu = class CreateTodoMenu {
         nameInput.setAttribute("placeholder", "todo name");
         this.addTodoDiv.appendChild(nameInput);
 
-        // priority header
-        const priorityHeader = document.createElement("div");
-        priorityHeader.setAttribute("id", "todo-priority-header");
-        priorityHeader.textContent = "Priority: ";
-        this.addTodoDiv.appendChild(priorityHeader);
-        // priority input
-        const priorityInput = document.createElement("input");
-        priorityInput.setAttribute("id", "todo-priority-input");
-        priorityInput.setAttribute("placeholder", "priority");
-        this.addTodoDiv.appendChild(priorityInput);
-
         // due date header
         const dueDateHeader = document.createElement("div");
         dueDateHeader.setAttribute("id", "todo-duedate-header");
@@ -41,6 +30,17 @@ export const CreateTodoMenu = class CreateTodoMenu {
         dueDateInput.setAttribute("id", "todo-duedate-input");
         dueDateInput.setAttribute("placeholder", "MM/dd/yyyy");
         this.addTodoDiv.appendChild(dueDateInput);
+
+        // priority header
+        const priorityHeader = document.createElement("div");
+        priorityHeader.setAttribute("id", "todo-priority-header");
+        priorityHeader.textContent = "Priority: ";
+        this.addTodoDiv.appendChild(priorityHeader);
+        // priority input
+        const priorityInput = document.createElement("input");
+        priorityInput.setAttribute("id", "todo-priority-input");
+        priorityInput.setAttribute("placeholder", "priority");
+        this.addTodoDiv.appendChild(priorityInput);
 
         // description header
         const descriptionHeader = document.createElement("div");

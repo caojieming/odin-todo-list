@@ -47,17 +47,17 @@ export const OpenProjectContent = class OpenProjectContent {
             todoTitle.textContent = todoList[i].name;
             todoDiv.appendChild(todoTitle);
 
-            // todo priority
-            const todoPriority = document.createElement("div");
-            todoPriority.classList.add("project-todo-description");
-            todoPriority.textContent = "Priority: " + todoList[i].priority;
-            todoDiv.appendChild(todoPriority);
-
             // todo due date
             const todoDueDate = document.createElement("div");
             todoDueDate.classList.add("project-todo-description");
             todoDueDate.textContent = "Due date: " + todoList[i].dueDate;
             todoDiv.appendChild(todoDueDate);
+
+            // todo priority
+            const todoPriority = document.createElement("div");
+            todoPriority.classList.add("project-todo-description");
+            todoPriority.textContent = "Priority: " + todoList[i].priority;
+            todoDiv.appendChild(todoPriority);
 
             // todo description
             const todoDescription = document.createElement("div");
