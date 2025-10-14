@@ -28,6 +28,7 @@ export const CreateTodoMenu = class CreateTodoMenu {
         const dueDateInput = document.createElement("input");
         dueDateInput.setAttribute("id", "todo-duedate-input");
         dueDateInput.setAttribute("type", "datetime-local");
+        dueDateInput.value = this.defaultDueDate();
         this.addTodoDiv.appendChild(dueDateInput);
 
         // priority header
@@ -35,11 +36,27 @@ export const CreateTodoMenu = class CreateTodoMenu {
         priorityHeader.setAttribute("id", "todo-priority-header");
         priorityHeader.textContent = "Priority: ";
         this.addTodoDiv.appendChild(priorityHeader);
-        // priority input
-        const priorityInput = document.createElement("input");
-        priorityInput.setAttribute("id", "todo-priority-input");
-        priorityInput.setAttribute("placeholder", "priority");
-        this.addTodoDiv.appendChild(priorityInput);
+        // priority select
+        const prioritySelect = document.createElement("select");
+        prioritySelect.setAttribute("id", "todo-priority-select");
+        prioritySelect.setAttribute("name", "priority-level");
+        this.addTodoDiv.appendChild(prioritySelect);
+        // (priority dropdown options)
+        const priorityLow = document.createElement("option");
+        priorityLow.setAttribute("id", "priority-low");
+        priorityLow.setAttribute("value", "1");
+        priorityLow.textContent = "Low";
+        prioritySelect.appendChild(priorityLow);
+        const priorityMiddle = document.createElement("option");
+        priorityMiddle.setAttribute("id", "priority-middle");
+        priorityMiddle.setAttribute("value", "2");
+        priorityMiddle.textContent = "Middle";
+        prioritySelect.appendChild(priorityMiddle);
+        const priorityHigh = document.createElement("option");
+        priorityHigh.setAttribute("id", "priority-high");
+        priorityHigh.setAttribute("value", "3");
+        priorityHigh.textContent = "High";
+        prioritySelect.appendChild(priorityHigh);
 
         // description header
         const descriptionHeader = document.createElement("div");
@@ -58,6 +75,15 @@ export const CreateTodoMenu = class CreateTodoMenu {
         createTodoBtn.textContent = "Create Todo Item";
         this.addTodoDiv.appendChild(createTodoBtn);
         
+    }
+
+    // default duedate value
+    defaultDueDate() {
+        const localDate = new Date();
+        // remove second/millisecond since it's not needed
+        localDate.setSeconds(null);
+        localDate.setMilliseconds(null);
+        return localDate.toISOString().slice(0, -1);
     }
 
 }

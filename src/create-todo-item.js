@@ -2,14 +2,14 @@ import { format } from "date-fns";
 
 export const CreateTodoItem = class CreateTodoItem {
 
-    contentDiv = document.querySelector("#content");
+    todoListDiv = document.querySelector("#todo-list-div");
 
     constructor(todo) {
-        // todo div
+        // todo container div
         const todoDiv = document.createElement("div");
         todoDiv.classList.add("project-todo");
         todoDiv.setAttribute("id", todo.id);
-        this.contentDiv.appendChild(todoDiv);
+        this.todoListDiv.appendChild(todoDiv);
 
         // todo title
         const todoTitle = document.createElement("div");
@@ -19,7 +19,7 @@ export const CreateTodoItem = class CreateTodoItem {
 
         // todo due date
         const todoDueDate = document.createElement("div");
-        todoDueDate.classList.add("project-todo-description");
+        todoDueDate.classList.add("project-todo-duedate");
         const date = new Date(todo.dueDate);
         const dateFormat = {
             weekday: 'long',
@@ -33,9 +33,14 @@ export const CreateTodoItem = class CreateTodoItem {
         todoDiv.appendChild(todoDueDate);
 
         // todo priority
+        const priorityMap = new Map([
+            ['1', "Low"],
+            ['2', "Middle"],
+            ['3', "High"]
+        ]);
         const todoPriority = document.createElement("div");
-        todoPriority.classList.add("project-todo-description");
-        todoPriority.textContent = "Priority: " + todo.priority;
+        todoPriority.classList.add("project-todo-priority");
+        todoPriority.textContent = "Priority: " + priorityMap.get(todo.priority);
         todoDiv.appendChild(todoPriority);
 
         // todo description

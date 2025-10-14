@@ -6,11 +6,11 @@ export const Project = class Project {
         this.id = crypto.randomUUID()
         this.title = title;
         this.description = description;
-        this.todos = [];
+        this.todoList = [];
     }
 
     addTodo(todoItem) {
-        this.todos.push(todoItem);
+        this.todoList.push(todoItem);
     }
 
 };

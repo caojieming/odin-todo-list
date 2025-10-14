@@ -10,18 +10,15 @@ import { DeleteProjectTab } from "./delete-project-tab.js";
 import { CreateTodoItem } from "./create-todo-item.js";
 import { Todo } from "./todo.js";
 
-/*
-Idea:
-overall hierarchy will go: project -> section -> (todo) item
-projects contain sections, sections contain items
-
-projects will be displayed on the left side of the screen (using a grid or something)
-sections + items will be displayed on the middle/right sides of the screen
-*/
 
 /*
 Todo list, roughly in order:
-- adding and removing todos
+- removing todos
+- make todos collapsed by default (task name and duedate only), and expandable (showing priority and description)
+- make todos color coded by priority
+- make todos sortable by priority
+- make todos editable
+- make projects editable
 */
 
 class Controller {
@@ -34,12 +31,9 @@ class Controller {
         this.projects = [];
 
         const firstProject = new Project("First project", "This is the first project.");
-        // const p1task1 = new Todo("task 1", format(new Date(2014, 1, 11), "MM/dd/yyyy"), "high", "look at enemy");
-        // const p1task2 = new Todo("task 2", format(new Date(2016, 2, 19), "MM/dd/yyyy"), "low", "panic roll");
-        // const p1task3 = new Todo("task 3", format(new Date(2019, 12, 31), "MM/dd/yyyy"), "medium", "get hit anyways");
-        const p1task1 = new Todo("task 1", "2014-01-12T00:00", "high", "look at enemy");
-        const p1task2 = new Todo("task 2", "2016-02-19T00:00", "low", "panic roll");
-        const p1task3 = new Todo("task 3", "2019-12-31T00:00", "medium", "get hit anyways");
+        const p1task1 = new Todo("task 1", "2014-01-12T00:00", "3", "look at enemy");
+        const p1task2 = new Todo("task 2", "2016-02-19T00:00", "1", "panic roll");
+        const p1task3 = new Todo("task 3", "2019-12-31T00:00", "2", "get hit anyways");
         firstProject.addTodo(p1task1);
         firstProject.addTodo(p1task2);
         firstProject.addTodo(p1task3);
@@ -47,12 +41,9 @@ class Controller {
         this.addProject(firstProject);
 
         const secondProject = new Project("Second project", "This is the second project. Yippee!");
-        // const p2task1 = new Todo("task 1", format(new Date(2014, 1, 11), "MM/dd/yyyy"), "medium", "curl into a ball");
-        // const p2task2 = new Todo("task 2", format(new Date(2016, 2, 19), "MM/dd/yyyy"), "low", "try not to cry");
-        // const p2task3 = new Todo("task 3", format(new Date(2019, 12, 31), "MM/dd/yyyy"), "high", "cry");
-        const p2task1 = new Todo("task 1", "2014-01-12T00:00", "medium", "curl into a ball");
-        const p2task2 = new Todo("task 2", "2016-02-19T00:00", "low", "try not to cry");
-        const p2task3 = new Todo("task 3", "2019-12-31T00:00", "high", "cry");
+        const p2task1 = new Todo("task 1", "2014-01-12T00:00", "2", "curl into a ball");
+        const p2task2 = new Todo("task 2", "2016-02-19T00:00", "1", "try not to cry");
+        const p2task3 = new Todo("task 3", "2019-12-31T00:00", "3", "cry");
         secondProject.addTodo(p2task1);
         secondProject.addTodo(p2task2);
         secondProject.addTodo(p2task3);
@@ -155,8 +146,8 @@ class Controller {
     }
     createTodoBtnClick() {
         const todoName = document.querySelector("#todo-name-input").value;
-        const todoPriority = document.querySelector("#todo-priority-input").value;
         const todoDueDate = document.querySelector("#todo-duedate-input").value;
+        const todoPriority = document.querySelector("#todo-priority-select").value;
         const todoDescription = document.querySelector("#todo-description-input").value;
         const newTodo = new Todo(todoName, todoDueDate, todoPriority, todoDescription);
 

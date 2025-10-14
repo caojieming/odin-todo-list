@@ -33,8 +33,11 @@ export const OpenProjectContent = class OpenProjectContent {
         addTodoDiv.appendChild(addTodoBtn);
 
 
-        // add all todos
-        const todoList = project.todos
+        // add all todos, creating a container div that CreateTodoItem can put them in
+        const todoList = project.todoList
+        const todoListDiv = document.createElement("div");
+        todoListDiv.setAttribute("id", "todo-list-div");
+        this.contentDiv.appendChild(todoListDiv);
         for(let i = 0; i < todoList.length; i++) {
             new CreateTodoItem(todoList[i]);
         }

@@ -123,7 +123,7 @@ body {
 #content > #add-todo-div > * {
     margin-bottom: 4px;
 }
-#content > .project-todo {
+#content .project-todo {
     font-size: 18px;
     margin-bottom: 20px;
 }
