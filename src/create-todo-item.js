@@ -48,6 +48,12 @@ export const CreateTodoItem = class CreateTodoItem {
         todoDescription.classList.add("project-todo-description");
         todoDescription.textContent = todo.description;
         todoDiv.appendChild(todoDescription);
+
+        // todo delete button
+        const todoDeleteBtn = document.createElement("button");
+        todoDeleteBtn.classList.add("project-todo-delete-btn");
+        todoDeleteBtn.textContent = "Delete?";
+        todoDiv.appendChild(todoDeleteBtn);
     }
 
 };

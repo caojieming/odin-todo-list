@@ -9,11 +9,11 @@ import { CreateTodoMenu } from "./create-todo-menu.js";
 import { DeleteProjectTab } from "./delete-project-tab.js";
 import { CreateTodoItem } from "./create-todo-item.js";
 import { Todo } from "./todo.js";
+import { DeleteTodoItem } from "./delete-todo-item.js";
 
 
 /*
 Todo list, roughly in order:
-- removing todos
 - make todos collapsed by default (task name and duedate only), and expandable (showing priority and description)
 - make todos color coded by priority
 - make todos sortable by priority
@@ -121,6 +121,9 @@ class Controller {
         const addTodoBtn = document.querySelector("#add-todo-btn");
         addTodoBtn.addEventListener("click", this.addTodoBtnClick.bind(this));
 
+        // click todo delete button -> delete todo from project's todoList and remove from UI
+        this.contentDiv.addEventListener("click", this.deleteTodoBtnClick.bind(this));
+
     }
     addTodoBtnClick() {
         const addTodoBtn = document.querySelector("#add-todo-btn");
@@ -161,6 +164,29 @@ class Controller {
         // add to UI
         new CreateTodoItem(newTodo);
     }
+    deleteTodoBtnClick(event) {
+        const element = event.target;
+        // exits function if element is not a project-todo-delete-btn
+        if(element.className !== "project-todo-delete-btn") { return; }
+        
+        // get current project and todoList
+        const projectTitleDiv = document.querySelector("#project-title");
+        const projectID = projectTitleDiv.className;
+        const projectIdx = this.getProjectIndexFromID(projectID);
+        const projectTodoList = this.projects[projectIdx].todoList;
+
+        // get which todo we are deleting
+        const todoDiv = element.parentNode;
+        const todoID = todoDiv.id;
+        const todoIdx = this.getTodoIndexFromID(this.projects[projectIdx], todoID);
+
+        // delete todo data
+        projectTodoList.splice(todoIdx, 1);
+
+        // delete todo from UI
+        new DeleteTodoItem(todoIdx);
+    }
+    
 
 
     // adding project tab to projects list on sidebar
@@ -173,10 +199,18 @@ class Controller {
     }
 
 
-    // useful little auxillary func
+    // useful little auxillary funcs
     getProjectIndexFromID(inputID) {
         for(let i = 0; i < this.projects.length; i++) {
-            if(this.projects[i].id == inputID) {
+            if(this.projects[i].id === inputID) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    getTodoIndexFromID(project, todoID) {
+        for(let i = 0; i < project.todoList.length; i++) {
+            if(project.todoList[i].id === todoID) {
                 return i;
             }
         }
