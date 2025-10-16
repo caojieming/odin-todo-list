@@ -130,3 +130,7 @@ body {
 #content .project-todo > * {
     margin-bottom: 4px;
 }
+#content .todo-title {
+    font-size: 20px;
+    font-weight: bold;
+}

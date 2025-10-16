@@ -14,8 +14,7 @@ import { DeleteTodoItem } from "./delete-todo-item.js";
 
 /*
 Todo list, roughly in order:
-- make todos collapsed by default (task name and duedate only), and expandable (showing priority and description)
-- make todos color coded by priority
+- make todos color coded by priority (maybe change background color/tint)
 - make todos sortable by priority
 - make todos editable
 - make projects editable
@@ -52,16 +51,21 @@ class Controller {
 
 
 
-        // click project tab on sidebar -> open project contents 
-        this.projectsDiv.addEventListener("click", this.openProjectContent.bind(this));
+        // click project tab on sidebar -> open project contents
+        const openProjectBtns = document.querySelectorAll(".project-btn");
+        openProjectBtns.forEach(el =>
+            el.addEventListener('click', this.openProjectContent.bind(this))
+        );
 
         // click "+" on sidebar (create project button) -> open create project content
         const createProjectBtn = document.querySelector("#create-project-btn");
         createProjectBtn.addEventListener("click", this.createProject.bind(this));
 
         // click Delete on sidebar -> delete project from sidbar and projects[]
-        this.projectsDiv.addEventListener("click", this.deleteProject.bind(this));
-
+        const deleteProjectBtns = document.querySelectorAll(".delete-project-btn");
+        deleteProjectBtns.forEach(el =>
+            el.addEventListener('click', this.deleteProject.bind(this))
+        );
         
     }
 
@@ -71,8 +75,6 @@ class Controller {
     
     deleteProject(event) {
         const element = event.target;
-        // exits function if element is not a delete-project-btn
-        if(element.className !== "delete-project-btn") { return; }
 
         const projectID = element.id;
         const projectIdx = this.getProjectIndexFromID(projectID);
@@ -107,8 +109,6 @@ class Controller {
     // opening a project onto content from the sidebar
     openProjectContent(event) {
         const element = event.target;
-        // exits function if element is not a project-btn
-        if(element.className !== "project-btn") { return; }
 
         const projectID = element.id;
         const projectIdx = this.getProjectIndexFromID(projectID);
@@ -122,8 +122,11 @@ class Controller {
         addTodoBtn.addEventListener("click", this.addTodoBtnClick.bind(this));
 
         // click todo delete button -> delete todo from project's todoList and remove from UI
-        this.contentDiv.addEventListener("click", this.deleteTodoBtnClick.bind(this));
-
+        const deleteTodoBtns = document.querySelectorAll(".todo-delete-btn");
+        deleteTodoBtns.forEach(el =>
+            el.addEventListener('click', this.deleteTodoBtnClick.bind(this))
+        );
+        // this.contentDiv.addEventListener("click", this.deleteTodoBtnClick.bind(this));
     }
     addTodoBtnClick() {
         const addTodoBtn = document.querySelector("#add-todo-btn");
@@ -163,11 +166,11 @@ class Controller {
 
         // add to UI
         new CreateTodoItem(newTodo);
+        
+        
     }
     deleteTodoBtnClick(event) {
         const element = event.target;
-        // exits function if element is not a project-todo-delete-btn
-        if(element.className !== "project-todo-delete-btn") { return; }
         
         // get current project and todoList
         const projectTitleDiv = document.querySelector("#project-title");
@@ -186,6 +189,7 @@ class Controller {
         // delete todo from UI
         new DeleteTodoItem(todoIdx);
     }
+    
     
 
 

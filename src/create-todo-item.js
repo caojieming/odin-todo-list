@@ -13,13 +13,13 @@ export const CreateTodoItem = class CreateTodoItem {
 
         // todo title
         const todoTitle = document.createElement("div");
-        todoTitle.classList.add("project-todo-title");
-        todoTitle.textContent = todo.name;
+        todoTitle.classList.add("todo-title");
+        todoTitle.textContent = todo.title;
         todoDiv.appendChild(todoTitle);
 
         // todo due date
         const todoDueDate = document.createElement("div");
-        todoDueDate.classList.add("project-todo-duedate");
+        todoDueDate.classList.add("todo-duedate");
         const date = new Date(todo.dueDate);
         const dateFormat = {
             weekday: 'long',
@@ -33,27 +33,66 @@ export const CreateTodoItem = class CreateTodoItem {
         todoDiv.appendChild(todoDueDate);
 
         // todo priority
-        const priorityMap = new Map([
+        const priorityValMap = new Map([
             ['1', "Low"],
             ['2', "Middle"],
             ['3', "High"]
         ]);
+        const priorityColorMap = new Map([
+            ['1', "#39d400ff"],
+            ['2', "#d1b800ff"],
+            ['3', "#D40000FF"]
+        ]);
         const todoPriority = document.createElement("div");
-        todoPriority.classList.add("project-todo-priority");
-        todoPriority.textContent = "Priority: " + priorityMap.get(todo.priority);
+        todoPriority.classList.add("todo-priority");
+        todoPriority.textContent = "Priority: " + priorityValMap.get(todo.priority);
+        todoPriority.setAttribute("style", "color: " + priorityColorMap.get(todo.priority));
         todoDiv.appendChild(todoPriority);
 
         // todo description
         const todoDescription = document.createElement("div");
-        todoDescription.classList.add("project-todo-description");
+        todoDescription.classList.add("todo-description");
         todoDescription.textContent = todo.description;
         todoDiv.appendChild(todoDescription);
 
         // todo delete button
         const todoDeleteBtn = document.createElement("button");
-        todoDeleteBtn.classList.add("project-todo-delete-btn");
+        todoDeleteBtn.classList.add("todo-delete-btn");
         todoDeleteBtn.textContent = "Delete?";
         todoDiv.appendChild(todoDeleteBtn);
+
+
+        // make everything under duedate hidden (start out collapsed)
+        todoPriority.style.display = "none";
+        todoDescription.style.display = "none";
+        todoDeleteBtn.style.display = "none";
+        
+
+        // click title of todo item -> expand to reveal more details
+        todoTitle.addEventListener("click", this.expandCollapseTodo.bind(this));
+    }
+
+    expandCollapseTodo(event) {
+        const element = event.target;
+
+        // get expandable/collapsable elements
+        const todoDiv = element.parentNode;
+        const priorityDiv = todoDiv.querySelector(".todo-priority");
+        const descriptionDiv = todoDiv.querySelector(".todo-description");
+        const deleteBtn = todoDiv.querySelector(".todo-delete-btn");
+
+        // if visible -> hide
+        if(priorityDiv.checkVisibility() == true) {
+            priorityDiv.style.display = "none";
+            descriptionDiv.style.display = "none";
+            deleteBtn.style.display = "none";
+        }
+        // if hidden -> make visible
+        else { 
+            priorityDiv.style.display = "block";
+            descriptionDiv.style.display = "block";
+            deleteBtn.style.display = "block";
+        }
     }
 
 };
