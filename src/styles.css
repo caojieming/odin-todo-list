@@ -1,7 +1,13 @@
+/* useful for dev purposes, remove when done */
 * {
     outline: 1px solid red;
 }
 
+/* removes annoying default margins of paragraphs */
+p {
+    margin: 0px;
+}
+/* buttons are inline-block by default, which causes some problems with certain buttons */
 button {
     display: block;
 }
@@ -123,11 +129,11 @@ body {
 #content > #add-todo-div > * {
     margin-bottom: 4px;
 }
-#content .project-todo {
+#content .todo-div {
     font-size: 18px;
     margin-bottom: 20px;
 }
-#content .project-todo > * {
+#content .todo-div > * {
     margin-bottom: 4px;
 }
 #content .todo-title {

@@ -10,19 +10,19 @@ export const OpenProjectContent = class OpenProjectContent {
         this.contentDiv.textContent = "";
 
         // project title
-        const title = document.createElement("div");
+        const title = document.createElement("p");
         title.setAttribute("id", "project-title");
         title.classList.add(project.id);
         title.textContent = project.title;
         this.contentDiv.appendChild(title);
 
         // project description
-        const description = document.createElement("div");
+        const description = document.createElement("p");
         description.setAttribute("id", "project-description");
         description.textContent = project.description;
         this.contentDiv.appendChild(description);
 
-        // button to add todo item, container div first (so todo creation menu can be attached later), add button second, menu div third
+        // button to add todo item, container div first (so todo creation menu can be attached later), add button second
         const addTodoDiv = document.createElement("div");
         addTodoDiv.setAttribute("id", "add-todo-div");
         this.contentDiv.appendChild(addTodoDiv);

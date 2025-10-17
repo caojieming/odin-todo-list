@@ -9,7 +9,7 @@ export const CreateProjectMenu = class CreateProjectMenu {
         this.contentDiv.textContent = "";
 
         // title header
-        const titleHeader = document.createElement("div");
+        const titleHeader = document.createElement("p");
         titleHeader.setAttribute("id", "project-title-header");
         titleHeader.textContent = "Name of project:";
         this.contentDiv.appendChild(titleHeader);
@@ -20,7 +20,7 @@ export const CreateProjectMenu = class CreateProjectMenu {
         this.contentDiv.appendChild(titleInput);
 
         // description header
-        const descriptionHeader = document.createElement("div");
+        const descriptionHeader = document.createElement("p");
         descriptionHeader.setAttribute("id", "project-description-header");
         descriptionHeader.textContent = "Description of project:";
         this.contentDiv.appendChild(descriptionHeader);

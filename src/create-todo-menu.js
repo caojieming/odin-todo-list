@@ -9,7 +9,7 @@ export const CreateTodoMenu = class CreateTodoMenu {
 
 
         // name header
-        const nameHeader = document.createElement("div");
+        const nameHeader = document.createElement("p");
         nameHeader.setAttribute("id", "todo-name-header");
         nameHeader.textContent = "Task Name: ";
         this.addTodoDiv.appendChild(nameHeader);
@@ -20,7 +20,7 @@ export const CreateTodoMenu = class CreateTodoMenu {
         this.addTodoDiv.appendChild(nameInput);
 
         // due date header
-        const dueDateHeader = document.createElement("div");
+        const dueDateHeader = document.createElement("p");
         dueDateHeader.setAttribute("id", "todo-duedate-header");
         dueDateHeader.textContent = "Due Date (both Date and Time required): ";
         this.addTodoDiv.appendChild(dueDateHeader);
@@ -32,7 +32,7 @@ export const CreateTodoMenu = class CreateTodoMenu {
         this.addTodoDiv.appendChild(dueDateInput);
 
         // priority header
-        const priorityHeader = document.createElement("div");
+        const priorityHeader = document.createElement("p");
         priorityHeader.setAttribute("id", "todo-priority-header");
         priorityHeader.textContent = "Priority: ";
         this.addTodoDiv.appendChild(priorityHeader);
@@ -59,7 +59,7 @@ export const CreateTodoMenu = class CreateTodoMenu {
         prioritySelect.appendChild(priorityHigh);
 
         // description header
-        const descriptionHeader = document.createElement("div");
+        const descriptionHeader = document.createElement("p");
         descriptionHeader.setAttribute("id", "todo-description-header");
         descriptionHeader.textContent = "Description: ";
         this.addTodoDiv.appendChild(descriptionHeader);

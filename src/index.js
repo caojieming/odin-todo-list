@@ -14,7 +14,6 @@ import { DeleteTodoItem } from "./delete-todo-item.js";
 
 /*
 Todo list, roughly in order:
-- make todos color coded by priority (maybe change background color/tint)
 - make todos sortable by priority
 - make todos editable
 - make projects editable
@@ -173,8 +172,8 @@ class Controller {
         const element = event.target;
         
         // get current project and todoList
-        const projectTitleDiv = document.querySelector("#project-title");
-        const projectID = projectTitleDiv.className;
+        const projectTitle = document.querySelector("#project-title");
+        const projectID = projectTitle.className;
         const projectIdx = this.getProjectIndexFromID(projectID);
         const projectTodoList = this.projects[projectIdx].todoList;
 
