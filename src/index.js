@@ -1,6 +1,6 @@
 // import { format } from "date-fns";
+import "./styles/style.css";
 
-import "./styles.css";
 import { Project } from "./project.js";
 import { OpenProjectContent } from "./open-project-content.js";
 import { CreateProjectMenu } from "./create-project-menu.js";
