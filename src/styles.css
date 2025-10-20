@@ -139,4 +139,20 @@ body {
 #content .todo-title {
     font-size: 20px;
     font-weight: bold;
+    cursor: pointer;
+}
+#content .todo-edit-btn, #content .todo-delete-btn {
+    border: none;
+	cursor: pointer;
+	outline: inherit;
+
+    padding: 4px;
+}
+#content .todo-edit-btn {
+    background: rgb(78, 78, 78);
+    color: white;
+}
+#content .todo-delete-btn {
+    background: red;
+    color: white;
 }

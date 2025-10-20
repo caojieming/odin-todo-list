@@ -14,9 +14,9 @@ import { DeleteTodoItem } from "./delete-todo-item.js";
 
 /*
 Todo list, roughly in order:
-- make todos sortable by priority
 - make todos editable
 - make projects editable
+- make todos sortable by priority
 */
 
 class Controller {
@@ -70,22 +70,6 @@ class Controller {
 
 
 
-    
-    
-    deleteProject(event) {
-        const element = event.target;
-
-        const projectID = element.id;
-        const projectIdx = this.getProjectIndexFromID(projectID);
-
-        // delete project from projects[]
-        this.projects.splice(projectIdx, 1);
-
-        // delete UI content
-        new DeleteProjectTab(projectID, projectIdx);
-    }
-    
-
 
 
     // opening the project creation UI onto content
@@ -105,6 +89,34 @@ class Controller {
     }
 
 
+    // adding project tab to projects list on sidebar
+    addProject(proj) {
+        this.projects.push(proj);
+        this.addProjectTab(proj);
+    }
+    addProjectTab(proj) {
+        new CreateProjectTab(proj);
+    }
+    
+    
+    // removing project from both projects[] and UI
+    deleteProject(event) {
+        const element = event.target;
+
+        const projectID = element.id;
+        const projectIdx = this.getProjectIndexFromID(projectID);
+
+        // delete project from projects[]
+        this.projects.splice(projectIdx, 1);
+
+        // delete UI content
+        new DeleteProjectTab(projectID, projectIdx);
+    }
+    
+
+    
+
+
     // opening a project onto content from the sidebar
     openProjectContent(event) {
         const element = event.target;
@@ -120,12 +132,17 @@ class Controller {
         const addTodoBtn = document.querySelector("#add-todo-btn");
         addTodoBtn.addEventListener("click", this.addTodoBtnClick.bind(this));
 
+        // click todo edit button -> edit todo in project's todoList and update UI
+        const editTodoBtns = document.querySelectorAll(".todo-edit-btn");
+        editTodoBtns.forEach(el =>
+            el.addEventListener('click', this.editTodoBtnClick.bind(this))
+        );
+
         // click todo delete button -> delete todo from project's todoList and remove from UI
         const deleteTodoBtns = document.querySelectorAll(".todo-delete-btn");
         deleteTodoBtns.forEach(el =>
             el.addEventListener('click', this.deleteTodoBtnClick.bind(this))
         );
-        // this.contentDiv.addEventListener("click", this.deleteTodoBtnClick.bind(this));
     }
     addTodoBtnClick() {
         const addTodoBtn = document.querySelector("#add-todo-btn");
@@ -164,9 +181,15 @@ class Controller {
         this.projects[projIdx].addTodo(newTodo);
 
         // add to UI
-        new CreateTodoItem(newTodo);
+        const newTodoItem = new CreateTodoItem(newTodo);
         
-        
+        // add event listeners to newly created todo item
+        const newTodoDiv = newTodoItem.todoDiv;
+        const newEditBtn = newTodoDiv.querySelector(".todo-edit-btn");
+        newEditBtn.addEventListener("click", this.editTodoBtnClick.bind(this));
+    }
+    editTodoBtnClick() {
+
     }
     deleteTodoBtnClick(event) {
         const element = event.target;
@@ -192,14 +215,7 @@ class Controller {
     
 
 
-    // adding project tab to projects list on sidebar
-    addProject(proj) {
-        this.projects.push(proj);
-        this.addProjectTab(proj);
-    }
-    addProjectTab(proj) {
-        new CreateProjectTab(proj);
-    }
+    
 
 
     // useful little auxillary funcs
