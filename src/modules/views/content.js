@@ -1,7 +1,10 @@
+import { editTodoBtnClick, deleteTodoBtnClick, finishTodoBtnClick } from "../controller";
+
+
 const contentDiv = document.querySelector("#content");
 
 
-export function openProjectContentUI(project) {
+export function openProjectContentView(project) {
     // reset content section
     contentDiv.textContent = "";
 
@@ -26,6 +29,8 @@ export function openProjectContentUI(project) {
     const addTodoBtn = document.createElement("button");
     addTodoBtn.setAttribute("id", "add-todo-btn");
     addTodoBtn.textContent = "Add a Todo item";
+    // click Add a Todo item on content -> open a todo creation menu underneath button
+    addTodoBtn.addEventListener("click", addTodoBtnClick);
     addTodoDiv.appendChild(addTodoBtn);
 
     // add all todos, creating a container div that CreateTodoItem can put them in
@@ -34,12 +39,12 @@ export function openProjectContentUI(project) {
     todoListDiv.setAttribute("id", "todo-list-div");
     contentDiv.appendChild(todoListDiv);
     for(let i = 0; i < todoList.length; i++) {
-        createTodoItemUI(todoList[i]);
+        createTodoItemView(todoList[i]);
     }
 }
 
 
-export function createTodoItemUI(todo) {
+export function createTodoItemView(todo) {
     const todoListDiv = document.querySelector("#todo-list-div");
 
     // todo container div
@@ -59,7 +64,6 @@ export function createTodoItemUI(todo) {
     todoTitleText.textContent = todo.title;
     todoTitle.appendChild(todoTitleText);
     
-
     // todo due date
     const todoDueDate = document.createElement("p");
     todoDueDate.classList.add("todo-duedate");
@@ -105,12 +109,16 @@ export function createTodoItemUI(todo) {
     const todoEditBtn = document.createElement("button");
     todoEditBtn.classList.add("todo-edit-btn");
     todoEditBtn.textContent = "Edit";
+    // click todo edit button -> edit todo in project's todoList and update View
+    todoEditBtn.addEventListener('click', editTodoBtnClick);
     todoDiv.appendChild(todoEditBtn);
 
     // todo delete button
     const todoDeleteBtn = document.createElement("button");
     todoDeleteBtn.classList.add("todo-delete-btn");
     todoDeleteBtn.textContent = "Delete";
+    // click todo delete button -> delete todo from project's todoList and remove from View
+    todoDeleteBtn.addEventListener('click', deleteTodoBtnClick);
     todoDiv.appendChild(todoDeleteBtn);
 
 
@@ -123,47 +131,61 @@ export function createTodoItemUI(todo) {
 
     // click title of todo item -> expand to reveal more details
     todoTitle.addEventListener("click", expandCollapseTodo);
-    // PROBLEM: clicking on todoTitle(p > span) triggers this event listener sinces spans are part of todoTitle(p), but the event is set to todoTitle(p > span) instead of todoTitle(p), which causes issues when finding parentNode in expandCollapseTodo
+}
+// event function, doesn't need access to model, so it's declared here
+function expandCollapseTodo(event) {
+    const element = event.currentTarget;
+    const todoDiv = element.parentNode;
+    /*
+    Good to know information:
+    If you clicked on a child of the element with an eventListener:
+        .target would give the child element, the actual "target" of the click
+        .currentTarget would give the the parent element (the element with an eventListener), the "current target" of the eventListener
+    */
 
+    // get expandable/collapsable elements
+    const priority = todoDiv.querySelector(".todo-priority");
+    const description = todoDiv.querySelector(".todo-description");
+    const editBtn = todoDiv.querySelector(".todo-edit-btn");
+    const deleteBtn = todoDiv.querySelector(".todo-delete-btn");
 
-    // eventListener function
-    function expandCollapseTodo() {
-        // const element = event.currentTarget;
-        // const todoDiv = element.parentNode;
-        /*
-        DEPRECATED, but still good to know information:
-        If you clicked on a child of the element with an eventListener:
-            .target would give the child element, the actual "target" of the click
-            .currentTarget would give the the parent element (the element with an eventListener), the "current target" of the eventListener
-        */
-
-        // get expandable/collapsable elements
-        const priority = todoDiv.querySelector(".todo-priority");
-        const description = todoDiv.querySelector(".todo-description");
-        const editBtn = todoDiv.querySelector(".todo-edit-btn");
-        const deleteBtn = todoDiv.querySelector(".todo-delete-btn");
-
-        // if visible -> hide
-        if(priority.checkVisibility() == true) {
-            priority.style.display = "none";
-            description.style.display = "none";
-            editBtn.style.display = "none";
-            deleteBtn.style.display = "none";
-        }
-        // if hidden -> make visible
-        else { 
-            priority.style.display = "block";
-            description.style.display = "block";
-            editBtn.style.display = "block";
-            deleteBtn.style.display = "block";
-        }
+    // if visible -> hide
+    if(priority.checkVisibility() == true) {
+        priority.style.display = "none";
+        description.style.display = "none";
+        editBtn.style.display = "none";
+        deleteBtn.style.display = "none";
     }
-
-    return todoDiv;
+    // if hidden -> make visible
+    else { 
+        priority.style.display = "block";
+        description.style.display = "block";
+        editBtn.style.display = "block";
+        deleteBtn.style.display = "block";
+    }
 }
 
 
-export function createTodoMenuUI() {
+// event function, doesn't need to access model, so declared here
+export function addTodoBtnClick() {
+    const addTodoBtn = document.querySelector("#add-todo-btn");
+
+    if(addTodoBtn.textContent === "Add a Todo item") {
+        // generate the todo creation menu underneath the button (a separate function because it's large, it's just below this function)
+        createTodoMenuView();
+    }
+    else if(addTodoBtn.textContent === "Cancel creating new Todo") {
+        // remove all but the first child in #add-todo-div (which is #add-todo-btn)
+        const addTodoDiv = document.querySelector("#add-todo-div");
+        while(addTodoDiv.childNodes.length > 1) {
+            addTodoDiv.removeChild(addTodoDiv.lastChild);
+        }
+        // set its text back to normal
+        addTodoBtn.textContent = "Add a Todo item";
+    }
+}
+// part of above function
+function createTodoMenuView() {
     const addTodoDiv = document.querySelector("#add-todo-div");
 
     // turn the add todo item button into a cancel button
@@ -235,8 +257,9 @@ export function createTodoMenuUI() {
     const createTodoBtn = document.createElement("button");
     createTodoBtn.setAttribute("id", "create-todo-btn");
     createTodoBtn.textContent = "Create Todo Item";
+    // click Create Todo Item button -> add a todo object to current project and add it to View
+    createTodoBtn.addEventListener("click", finishTodoBtnClick);
     addTodoDiv.appendChild(createTodoBtn);
-        
 
     // default duedate value
     function defaultDueDate() {
@@ -246,27 +269,24 @@ export function createTodoMenuUI() {
         localDate.setMilliseconds(null);
         return localDate.toISOString().slice(0, -1);
     }
-
 }
 
 
-export function deleteTodoItemUI(todoIdx) {
+export function deleteTodoItemView(todoIdx) {
     const todoListDiv = document.querySelector("#todo-list-div");
 
-    // remove from UI
+    // remove from View
     removeChildAtIndex(todoListDiv, todoIdx);
     
-
     function removeChildAtIndex(parentElement, index) {
         const children = parentElement.children;
         if(children.length > 0) {
             parentElement.removeChild(children[index]);
         }
     }
-
 }
 
 
-export function editTodoMenuUI() {
-
+export function editTodoMenuView() {
+    // TODO
 }

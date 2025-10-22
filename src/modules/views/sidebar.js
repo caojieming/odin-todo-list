@@ -1,10 +1,13 @@
+import { openProjectContent, deleteProject, finishProjectCreation } from "../controller";
+
+
 const sidebarDiv = document.querySelector("#sidebar");
 const projectsDiv = document.querySelector("#projects");
 const contentDiv = document.querySelector("#content");
 
-export function createProjectMenuUI() {
-    // this module is purely for setting up the UI, functions/interactions will be in either project.js or initialize
 
+
+export function createProjectMenuView() {
     // reset content section
     contentDiv.textContent = "";
 
@@ -34,11 +37,12 @@ export function createProjectMenuUI() {
     const finishBtn = document.createElement("button");
     finishBtn.setAttribute("id", "finish-project-btn");
     finishBtn.textContent = "Create Project!";
+    finishBtn.addEventListener("click", finishProjectCreation);
     contentDiv.appendChild(finishBtn);
 }
 
 
-export function createProjectTabUI(project) {
+export function createProjectTabView(project) {
     // create project tab div
     const projectTab = document.createElement("div");
     projectTab.classList.add("project-tab");
@@ -48,36 +52,35 @@ export function createProjectTabUI(project) {
     // delete button
     const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete-project-btn");
-    deleteBtn.setAttribute("id", project.id);
     deleteBtn.textContent = "Delete";
+    // click delete button -> removes project from projectList model and view
+    deleteBtn.addEventListener('click', deleteProject);
     projectTab.appendChild(deleteBtn);
 
     // project tab
     const projectBtn = document.createElement("button");
     projectBtn.classList.add("project-btn");
-    projectBtn.setAttribute("id", project.id);
     projectBtn.textContent = project.title;
+    // click project button -> open project details in content view
+    projectBtn.addEventListener('click', openProjectContent);
     projectTab.appendChild(projectBtn);
-
-    return projectTab;
 }
 
 
-export function deleteProjectTabUI(projectID, projectIdx) {
-    // remove from UI
+export function deleteProjectTabView(projectID, projectIdx) {
+    // remove from View
     removeChildAtIndex(projectsDiv, projectIdx);
 
     // also reset content if project was just deleted
-    const currContentTitle = document.querySelector("#project-title");
-    if(currContentTitle.classList.contains(projectID)) {
+    const curContentTitle = document.querySelector("#project-title");
+    if(curContentTitle != null && curContentTitle.classList.contains(projectID)) {
         contentDiv.textContent = '';
     }
-
-    // helper function
-    function removeChildAtIndex(parentElement, index) {
-        const children = parentElement.children;
-        if(children.length > 0) {
-            parentElement.removeChild(children[index]);
-        }
+}
+// helper function
+function removeChildAtIndex(parentElement, index) {
+    const children = parentElement.children;
+    if(children.length > 0) {
+        parentElement.removeChild(children[index]);
     }
 }
