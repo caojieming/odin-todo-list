@@ -1,4 +1,4 @@
-import { openProjectContent, deleteProject, finishProjectCreation } from "../controller";
+import { openProjectContent, deleteProject, confirmProjectCreation } from "../controller";
 
 
 const sidebarDiv = document.querySelector("#sidebar");
@@ -37,7 +37,7 @@ export function createProjectMenuView() {
     const finishBtn = document.createElement("button");
     finishBtn.setAttribute("id", "finish-project-btn");
     finishBtn.textContent = "Create Project!";
-    finishBtn.addEventListener("click", finishProjectCreation);
+    finishBtn.addEventListener("click", confirmProjectCreation);
     contentDiv.appendChild(finishBtn);
 }
 

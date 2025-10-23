@@ -1,4 +1,4 @@
-import { editTodoBtnClick, deleteTodoBtnClick, finishTodoBtnClick } from "../controller";
+import { deleteTodo, confirmCreateTodo, confirmEditTodo } from "../controller";
 
 
 const contentDiv = document.querySelector("#content");
@@ -68,6 +68,7 @@ export function createTodoItemView(todo) {
     const todoDueDate = document.createElement("p");
     todoDueDate.classList.add("todo-duedate");
     const date = new Date(todo.dueDate);
+    todoDueDate.classList.add(todo.dueDate); // store duedate string as a class
     const dateFormat = {
         weekday: 'long',
         year: 'numeric',
@@ -92,6 +93,7 @@ export function createTodoItemView(todo) {
     ]);
     const todoPriority = document.createElement("p");
     todoPriority.classList.add("todo-priority");
+    todoPriority.classList.add(todo.priority); // store priority val in classList
     todoPriority.textContent = "Priority: " + priorityValMap.get(todo.priority);
     todoPriority.setAttribute("style", "color: " + priorityColorMap.get(todo.priority));
     todoDiv.appendChild(todoPriority);
@@ -110,7 +112,7 @@ export function createTodoItemView(todo) {
     todoEditBtn.classList.add("todo-edit-btn");
     todoEditBtn.textContent = "Edit";
     // click todo edit button -> edit todo in project's todoList and update View
-    todoEditBtn.addEventListener('click', editTodoBtnClick);
+    todoEditBtn.addEventListener('click', editTodoMenuView);
     todoDiv.appendChild(todoEditBtn);
 
     // todo delete button
@@ -118,7 +120,7 @@ export function createTodoItemView(todo) {
     todoDeleteBtn.classList.add("todo-delete-btn");
     todoDeleteBtn.textContent = "Delete";
     // click todo delete button -> delete todo from project's todoList and remove from View
-    todoDeleteBtn.addEventListener('click', deleteTodoBtnClick);
+    todoDeleteBtn.addEventListener('click', deleteTodo);
     todoDiv.appendChild(todoDeleteBtn);
 
 
@@ -192,16 +194,16 @@ function createTodoMenuView() {
     const addTodoBtn = document.querySelector("#add-todo-btn");
     addTodoBtn.textContent = "Cancel creating new Todo";
 
-    // name header
-    const nameHeader = document.createElement("p");
-    nameHeader.setAttribute("id", "todo-name-header");
-    nameHeader.textContent = "Task Name: ";
-    addTodoDiv.appendChild(nameHeader);
-    // name input
-    const nameInput = document.createElement("input");
-    nameInput.setAttribute("id", "todo-name-input");
-    nameInput.setAttribute("placeholder", "todo name");
-    addTodoDiv.appendChild(nameInput);
+    // title header
+    const titleHeader = document.createElement("p");
+    titleHeader.setAttribute("id", "todo-title-header");
+    titleHeader.textContent = "Task Name: ";
+    addTodoDiv.appendChild(titleHeader);
+    // title input
+    const titleInput = document.createElement("input");
+    titleInput.setAttribute("id", "todo-title-input");
+    titleInput.setAttribute("placeholder", "todo title");
+    addTodoDiv.appendChild(titleInput);
 
     // due date header
     const dueDateHeader = document.createElement("p");
@@ -258,7 +260,7 @@ function createTodoMenuView() {
     createTodoBtn.setAttribute("id", "create-todo-btn");
     createTodoBtn.textContent = "Create Todo Item";
     // click Create Todo Item button -> add a todo object to current project and add it to View
-    createTodoBtn.addEventListener("click", finishTodoBtnClick);
+    createTodoBtn.addEventListener("click", confirmCreateTodo);
     addTodoDiv.appendChild(createTodoBtn);
 
     // default duedate value
@@ -287,6 +289,96 @@ export function deleteTodoItemView(todoIdx) {
 }
 
 
-export function editTodoMenuView() {
-    // TODO
+export function editTodoMenuView(event) {
+    // replace todoDiv elements with createTodoMenu elements, but they already have values (previous values)
+    const element = event.currentTarget;
+    const todoDiv = element.parentNode;
+
+    // store all current todo values
+    const todoTitle = todoDiv.querySelector(".todo-title").textContent.replace("* ", ''); // remove "* "
+    const todoDueDate = todoDiv.querySelector(".todo-duedate").classList[1]; // string date stored in classList
+    const todoPriority = todoDiv.querySelector(".todo-priority").classList[1]; // priority val stored in classList
+    const todoDescription = todoDiv.querySelector(".todo-description").textContent;
+
+    // reset todoDiv contents for edit menu
+    todoDiv.textContent = '';
+
+    // title header
+    const titleHeader = document.createElement("p");
+    titleHeader.setAttribute("id", "edit-todo-title-header");
+    titleHeader.textContent = "Task Name: ";
+    todoDiv.appendChild(titleHeader);
+    // title input
+    const titleInput = document.createElement("input");
+    titleInput.setAttribute("id", "edit-todo-title-input");
+    titleInput.value = todoTitle;
+    todoDiv.appendChild(titleInput);
+
+    // due date header
+    const dueDateHeader = document.createElement("p");
+    dueDateHeader.setAttribute("id", "edit-todo-duedate-header");
+    dueDateHeader.textContent = "Due Date (both Date and Time required): ";
+    todoDiv.appendChild(dueDateHeader);
+    // due date input
+    const dueDateInput = document.createElement("input");
+    dueDateInput.setAttribute("id", "edit-todo-duedate-input");
+    dueDateInput.setAttribute("type", "datetime-local");
+    dueDateInput.value = todoDueDate;
+    todoDiv.appendChild(dueDateInput);
+
+    // priority header
+    const priorityHeader = document.createElement("p");
+    priorityHeader.setAttribute("id", "edit-todo-priority-header");
+    priorityHeader.textContent = "Priority: ";
+    todoDiv.appendChild(priorityHeader);
+    // priority select
+    const prioritySelect = document.createElement("select");
+    prioritySelect.setAttribute("id", "edit-todo-priority-select");
+    prioritySelect.setAttribute("name", "priority-level");
+    todoDiv.appendChild(prioritySelect);
+    // (priority dropdown options)
+    const priorityLow = document.createElement("option");
+    priorityLow.setAttribute("id", "edit-priority-low");
+    priorityLow.setAttribute("value", "1");
+    priorityLow.textContent = "Low";
+    prioritySelect.appendChild(priorityLow);
+    const priorityMiddle = document.createElement("option");
+    priorityMiddle.setAttribute("id", "edit-priority-middle");
+    priorityMiddle.setAttribute("value", "2");
+    priorityMiddle.textContent = "Middle";
+    prioritySelect.appendChild(priorityMiddle);
+    const priorityHigh = document.createElement("option");
+    priorityHigh.setAttribute("id", "edit-priority-high");
+    priorityHigh.setAttribute("value", "3");
+    priorityHigh.textContent = "High";
+    prioritySelect.appendChild(priorityHigh);
+    // set initial value
+    if(todoPriority === 1) {
+        priorityLow.setAttribute("selected", '');
+    }
+    else if(todoPriority === 2) {
+        priorityMiddle.setAttribute("selected", '');
+    }
+    else {
+        priorityHigh.setAttribute("selected", '');
+    }
+
+    // description header
+    const descriptionHeader = document.createElement("p");
+    descriptionHeader.setAttribute("id", "edit-todo-description-header");
+    descriptionHeader.textContent = "Description: ";
+    todoDiv.appendChild(descriptionHeader);
+    // description input
+    const descriptionInput = document.createElement("input");
+    descriptionInput.setAttribute("id", "edit-todo-description-input");
+    descriptionInput.textContent = todoDescription;
+    todoDiv.appendChild(descriptionInput);
+
+    // button to confirm and create todo item
+    const confirmEditTodoBtn = document.createElement("button");
+    confirmEditTodoBtn.setAttribute("id", "confirm-edit-todo-btn");
+    confirmEditTodoBtn.textContent = "Confirm Changes";
+    // click Create Todo Item button -> add a todo object to current project and add it to View
+    confirmEditTodoBtn.addEventListener("click", confirmEditTodo);
+    todoDiv.appendChild(confirmEditTodoBtn);
 }

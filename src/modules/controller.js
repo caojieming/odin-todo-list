@@ -35,7 +35,7 @@ export function init() {
 
 
 // event function, creates a Project() based of details on content view and adds it to projectList[] model and view
-export function finishProjectCreation() {
+export function confirmProjectCreation() {
     const projTitle = contentDiv.querySelector("#project-title-input").value;
     const projDescription = contentDiv.querySelector("#project-description-input").value;
 
@@ -87,7 +87,7 @@ export function openProjectContent(event) {
 
 
 // event function
-export function finishTodoBtnClick() {
+export function confirmCreateTodo() {
     const todoName = document.querySelector("#todo-name-input").value;
     const todoDueDate = document.querySelector("#todo-duedate-input").value;
     const todoPriority = document.querySelector("#todo-priority-select").value;
@@ -107,13 +107,13 @@ export function finishTodoBtnClick() {
 
 
 // event function
-export function editTodoBtnClick() {
+export function confirmEditTodo() {
     // TODO
 }
 
 
 // event function
-export function deleteTodoBtnClick(event) {
+export function deleteTodo(event) {
     const element = event.currentTarget;
     
     // get current project and todoList
