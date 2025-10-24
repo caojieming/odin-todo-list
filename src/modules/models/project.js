@@ -9,15 +9,11 @@ export const Project = class Project {
         this.todoList = [];
     }
 
-    addTodo(todoItem) {
-        this.todoList.push(todoItem);
-    }
-
 };
 
 
-// list of all projects, cannot be directly accessed, can only be accessed through functions
-const projectList = [];
+// list of all projects
+export const projectList = [];
 
 
 export function getProjectIndexFromID(inputID) {
@@ -38,10 +34,6 @@ export function getTodoIndexFromID(project, todoID) {
     return -1;
 }
 
-export function getProjectFromList(projectIdx) {
-    return projectList[projectIdx];
-}
-
 export function addProjectToListModel(project) {
     projectList.push(project);
 }
@@ -51,12 +43,20 @@ export function removeProjectFromListModel(projectIdx) {
 }
 
 export function addTodoToProject(projectIdx, todo) {
-    projectList[projectIdx].addTodo(todo);
+    projectList[projectIdx].todoList.push(todo);
 }
 
 export function removeTodoFromProject(projectIdx, todoIdx) {
-    const projectTodoList = projectList[projectIdx].todoList;
-    projectTodoList.splice(todoIdx, 1);
+    projectList[projectIdx].todoList.splice(todoIdx, 1);
+}
+
+export function editTodoFromProject(projectIdx, todoIdx, todo) {
+    const curProject = projectList[projectIdx];
+    const curTodo = curProject.todoList[todoIdx];
+    curTodo.title = todo.title;
+    curTodo.dueDate = todo.dueDate;
+    curTodo.priority = todo.priority;
+    curTodo.description = todo.description;
 }
 
 export function getSampleProjects() {
@@ -66,9 +66,9 @@ export function getSampleProjects() {
     const p1task1 = new Todo("task 1", "2014-01-12T00:00", "3", "look at enemy");
     const p1task2 = new Todo("task 2", "2016-02-19T00:00", "1", "panic roll");
     const p1task3 = new Todo("task 3", "2019-12-31T00:00", "2", "get hit anyways");
-    firstProject.addTodo(p1task1);
-    firstProject.addTodo(p1task2);
-    firstProject.addTodo(p1task3);
+    firstProject.todoList.push(p1task1);
+    firstProject.todoList.push(p1task2);
+    firstProject.todoList.push(p1task3);
 
     sampleList.push(firstProject);
 
@@ -76,9 +76,9 @@ export function getSampleProjects() {
     const p2task1 = new Todo("task 1", "2014-01-12T00:00", "2", "curl into a ball");
     const p2task2 = new Todo("task 2", "2016-02-19T00:00", "1", "try not to cry");
     const p2task3 = new Todo("task 3", "2019-12-31T00:00", "3", "cry");
-    secondProject.addTodo(p2task1);
-    secondProject.addTodo(p2task2);
-    secondProject.addTodo(p2task3);
+    secondProject.todoList.push(p2task1);
+    secondProject.todoList.push(p2task2);
+    secondProject.todoList.push(p2task3);
     
     sampleList.push(secondProject);
 

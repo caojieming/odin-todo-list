@@ -1,7 +1,7 @@
-import { Project, getSampleProjects, addProjectToListModel, removeProjectFromListModel, addTodoToProject, removeTodoFromProject, getProjectFromList, getProjectIndexFromID, getTodoIndexFromID } from "./models/project.js";
+import { Project, projectList, getSampleProjects, addProjectToListModel, removeProjectFromListModel, addTodoToProject, removeTodoFromProject, getProjectIndexFromID, getTodoIndexFromID, editTodoFromProject } from "./models/project.js";
 import { Todo } from "./models/todo.js";
 import { createProjectMenuView, createProjectTabView, deleteProjectTabView } from "./views/sidebar.js";
-import { openProjectContentView, createTodoItemView, deleteTodoItemView, editTodoMenuView } from "./views/content.js";
+import { openProjectContentView, createTodoItemView, deleteTodoItemView, editTodoItemView } from "./views/content.js";
 
 /*
 OK, so most addEventListener functions should be declared here since they require access to both models and views
@@ -81,18 +81,18 @@ export function openProjectContent(event) {
 
     // if statement is there just in case, getProjectIndexFromID() at this point in the code shouldn't return -1
     if(projectIdx != -1) {
-        openProjectContentView(getProjectFromList(projectIdx));
+        openProjectContentView(projectList[projectIdx]);
     }
 }
 
 
 // event function
 export function confirmCreateTodo() {
-    const todoName = document.querySelector("#todo-name-input").value;
-    const todoDueDate = document.querySelector("#todo-duedate-input").value;
+    const todoTitle = document.querySelector("#todo-title-input").value;
+    const todoDueDate = document.querySelector("#todo-dueDate-input").value;
     const todoPriority = document.querySelector("#todo-priority-select").value;
     const todoDescription = document.querySelector("#todo-description-input").value;
-    const newTodo = new Todo(todoName, todoDueDate, todoPriority, todoDescription);
+    const newTodo = new Todo(todoTitle, todoDueDate, todoPriority, todoDescription);
 
     // get current project
     const projectID = document.querySelector("#project-title").classList[0];
@@ -107,8 +107,31 @@ export function confirmCreateTodo() {
 
 
 // event function
-export function confirmEditTodo() {
-    // TODO
+export function confirmEditTodo(event) {
+    // edit btn -> todoDiv -> todoListDiv
+    const element = event.currentTarget;
+    const todoDiv = element.parentNode;
+
+    const todoTitle = todoDiv.querySelector(".edit-todo-title-input").value;
+    const todoDueDate = todoDiv.querySelector(".edit-todo-dueDate-input").value;
+    const todoPriority = todoDiv.querySelector(".edit-todo-priority-select").value;
+    const todoDescription = todoDiv.querySelector(".edit-todo-description-input").value;
+    // this will generate a new todo with its own ID, however we will just be using this todo as a transferable data packet
+    const updatedTodo = new Todo(todoTitle, todoDueDate, todoPriority, todoDescription);
+
+    // get current project idx in projectList[]
+    const projectID = document.querySelector("#project-title").classList[0];
+    const projectIdx = getProjectIndexFromID(projectID);
+
+    // get current todo idx in todoList[] (todo.id is stored in todoDiv as its id)
+    const todoID = todoDiv.id;
+    const todoIdx = getTodoIndexFromID(projectList[projectIdx], todoID);
+
+    // replace todo in project
+    editTodoFromProject(projectIdx, todoIdx, updatedTodo);
+
+    // update view
+    editTodoItemView(todoIdx, updatedTodo);
 }
 
 
@@ -124,7 +147,7 @@ export function deleteTodo(event) {
     // get which todo we are deleting
     const todoDiv = element.parentNode;
     const todoID = todoDiv.id;
-    const todoIdx = getTodoIndexFromID(getProjectFromList(projectIdx), todoID);
+    const todoIdx = getTodoIndexFromID(projectList[projectIdx], todoID);
 
     // delete todo data
     removeTodoFromProject(projectIdx, todoIdx);

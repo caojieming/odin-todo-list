@@ -4,8 +4,8 @@ export const Todo = class Todo {
         this.id = crypto.randomUUID()
         this.title = title;
         this.dueDate = dueDate;
-        this.description = description;
         this.priority = priority;
+        this.description = description;
     }
 
 };

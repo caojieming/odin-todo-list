@@ -1,6 +1,5 @@
 # Todo List Webapp
-Note: After a few weeks of casual development, I just realized that I think I structured this entire project incorrectly (subconsciously entered the Java OOP mindset).<br>
-Please excuse me while I ~~go bash my head against a wall~~ restructure basically everything so that the module structure actually make sense.
+Note: The former atrocious file structure has been fixed, and is now MVC structured.
 
 # npm-webpack-template
 Repository Template for npm Webpack stuff.
