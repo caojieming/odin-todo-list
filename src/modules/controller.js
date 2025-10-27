@@ -1,22 +1,14 @@
 import { Project, projectList, getSampleProjects, addProjectToListModel, removeProjectFromListModel, addTodoToProject, removeTodoFromProject, getProjectIndexFromID, getTodoIndexFromID, editTodoFromProject } from "./models/project.js";
 import { Todo } from "./models/todo.js";
-import { createProjectMenuView, createProjectTabView, deleteProjectTabView } from "./views/sidebar.js";
-import { openProjectContentView, createTodoItemView, deleteTodoItemView, editTodoItemView } from "./views/content.js";
+import { createProjectMenuView, createProjectTabView, editProjectSidebarView, deleteProjectTabView } from "./views/sidebar.js";
+import { openProjectContentView, editProjectContentView, createTodoItemView, deleteTodoItemView, editTodoItemView } from "./views/content.js";
 
 /*
-OK, so most addEventListener functions should be declared here since they require access to both models and views
-
 Todo list, roughly in order:
-- try to make it so that projectList doesn't need to be imported at all (make all projectList edits inside project.js by calling project.js functions)
-
-- fix entire structure
-- make todos editable
-- make projects editable
+- make project title + description editable
 - make todos sortable by priority
 */
 
-const projectsDiv = document.querySelector("#projects");
-const contentDiv = document.querySelector("#content");
 
 export function init() {
     // generate sample project models
@@ -36,8 +28,8 @@ export function init() {
 
 // event function, creates a Project() based of details on content view and adds it to projectList[] model and view
 export function confirmProjectCreation() {
-    const projTitle = contentDiv.querySelector("#project-title-input").value;
-    const projDescription = contentDiv.querySelector("#project-description-input").value;
+    const projTitle = document.querySelector("#project-title-input").value;
+    const projDescription = document.querySelector("#project-description-input").value;
 
     const newProject = new Project(projTitle, projDescription);
     addProject(newProject);
@@ -87,6 +79,29 @@ export function openProjectContent(event) {
 
 
 // event function
+export function confirmEditProject(event) {
+    // edit btn -> project details div
+    const element = event.currentTarget;
+    const projectDetailsDiv = element.parentNode;
+
+    const title = projectDetailsDiv.querySelector("#edit-project-title-input").value;
+    const description = projectDetailsDiv.querySelector("#edit-project-description-input").value;
+
+    // get current project idx in projectList[]
+    const projectID = document.querySelector("#project-details-div").classList[0];
+    const projectIdx = getProjectIndexFromID(projectID);
+
+    // update model
+    projectList[projectIdx].title = title;
+    projectList[projectIdx].description = description;
+
+    // update view
+    editProjectSidebarView(projectIdx, title);
+    editProjectContentView(title, description);
+}
+
+
+// event function
 export function confirmCreateTodo() {
     const todoTitle = document.querySelector("#todo-title-input").value;
     const todoDueDate = document.querySelector("#todo-dueDate-input").value;
@@ -95,7 +110,7 @@ export function confirmCreateTodo() {
     const newTodo = new Todo(todoTitle, todoDueDate, todoPriority, todoDescription);
 
     // get current project
-    const projectID = document.querySelector("#project-title").classList[0];
+    const projectID = document.querySelector("#project-details-div").classList[0];
     const projectIdx = getProjectIndexFromID(projectID);
 
     // add to project projectList[]
@@ -120,7 +135,7 @@ export function confirmEditTodo(event) {
     const updatedTodo = new Todo(todoTitle, todoDueDate, todoPriority, todoDescription);
 
     // get current project idx in projectList[]
-    const projectID = document.querySelector("#project-title").classList[0];
+    const projectID = document.querySelector("#project-details-div").classList[0];
     const projectIdx = getProjectIndexFromID(projectID);
 
     // get current todo idx in todoList[] (todo.id is stored in todoDiv as its id)
@@ -140,7 +155,7 @@ export function deleteTodo(event) {
     const element = event.currentTarget;
     
     // get current project and todoList
-    const projectTitle = document.querySelector("#project-title");
+    const projectTitle = document.querySelector("#project-details-div");
     const projectID = projectTitle.className;
     const projectIdx = getProjectIndexFromID(projectID);
 

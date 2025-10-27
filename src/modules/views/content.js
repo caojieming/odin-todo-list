@@ -1,4 +1,4 @@
-import { deleteTodo, confirmCreateTodo, confirmEditTodo } from "../controller";
+import { confirmEditProject, deleteTodo, confirmCreateTodo, confirmEditTodo } from "../controller";
 
 
 const contentDiv = document.querySelector("#content");
@@ -8,18 +8,30 @@ export function openProjectContentView(project) {
     // reset content section
     contentDiv.textContent = "";
 
+    // div to group project title, description, and edit button
+    const projectDetailsDiv = document.createElement("div");
+    projectDetailsDiv.setAttribute("id", "project-details-div");
+    projectDetailsDiv.classList.add(project.id);
+    contentDiv.appendChild(projectDetailsDiv);
+
     // project title
     const title = document.createElement("p");
     title.setAttribute("id", "project-title");
-    title.classList.add(project.id);
     title.textContent = project.title;
-    contentDiv.appendChild(title);
+    projectDetailsDiv.appendChild(title);
 
     // project description
     const description = document.createElement("p");
     description.setAttribute("id", "project-description");
     description.textContent = project.description;
-    contentDiv.appendChild(description);
+    projectDetailsDiv.appendChild(description);
+
+    // edit project details button
+    const editBtn = document.createElement("button");
+    editBtn.setAttribute("id", "project-edit-btn");
+    editBtn.textContent = "Edit project Title or Description";
+    editBtn.addEventListener("click", editProjectMenuView);
+    projectDetailsDiv.appendChild(editBtn);
 
     // button to add todo item, container div first (so todo creation menu can be attached later), add button second
     const addTodoDiv = document.createElement("div");
@@ -41,6 +53,77 @@ export function openProjectContentView(project) {
     for(let i = 0; i < todoList.length; i++) {
         createTodoItemView(todoList[i]);
     }
+}
+
+
+// click edit project button -> open edit project menu
+export function editProjectMenuView() {
+    const projectDetailsDiv = document.querySelector("#project-details-div");
+
+    // get and store title and description
+    const oldTitle = document.querySelector("#project-title").textContent;
+    const oldDescription = document.querySelector("#project-description").textContent;
+
+    // reset project details div
+    projectDetailsDiv.textContent = '';
+
+    // title header
+    const titleHeader = document.createElement("p");
+    titleHeader.setAttribute("id", "edit-project-title-header");
+    titleHeader.textContent = "Title: ";
+    projectDetailsDiv.appendChild(titleHeader);
+    // title input
+    const titleInput = document.createElement("input");
+    titleInput.setAttribute("id", "edit-project-title-input");
+    titleInput.value = oldTitle;
+    projectDetailsDiv.appendChild(titleInput);
+
+    // description header
+    const descriptionHeader = document.createElement("p");
+    descriptionHeader.setAttribute("id", "edit-project-description-header");
+    descriptionHeader.textContent = "Description: ";
+    projectDetailsDiv.appendChild(descriptionHeader);
+    // description input
+    const descriptionInput = document.createElement("input");
+    descriptionInput.setAttribute("id", "edit-project-description-input");
+    descriptionInput.value = oldDescription;
+    projectDetailsDiv.appendChild(descriptionInput);
+
+    // button to confirm edits
+    const confirmEditProjectBtn = document.createElement("button");
+    confirmEditProjectBtn.setAttribute("id", "confirm-edit-project-btn");
+    confirmEditProjectBtn.textContent = "Confirm changes";
+    // click confirm edit button -> update project model and view
+    confirmEditProjectBtn.addEventListener("click", confirmEditProject);
+    projectDetailsDiv.appendChild(confirmEditProjectBtn);
+}
+
+
+// already clicked confirm edit project -> update project details on content view
+export function editProjectContentView(newTitle, newDescription) {
+    const projectDetailsDiv = document.querySelector("#project-details-div");
+    
+    // reset project details div
+    projectDetailsDiv.textContent = '';
+
+    // recreate original title p
+    const title = document.createElement("p");
+    title.setAttribute("id", "project-title");
+    title.textContent = newTitle;
+    projectDetailsDiv.appendChild(title);
+
+    // recreate original description p
+    const description = document.createElement("p");
+    description.setAttribute("id", "project-description");
+    description.textContent = newDescription;
+    projectDetailsDiv.appendChild(description);
+
+    // recreate original edit details btn
+    const editBtn = document.createElement("button");
+    editBtn.setAttribute("id", "project-edit-btn");
+    editBtn.textContent = "Edit project Title or Description";
+    editBtn.addEventListener("click", editProjectMenuView);
+    projectDetailsDiv.appendChild(editBtn);
 }
 
 
@@ -306,26 +389,22 @@ export function editTodoMenuView(event) {
 
     // title header
     const titleHeader = document.createElement("p");
-    // titleHeader.setAttribute("id", "edit-todo-title-header");
     titleHeader.classList.add("edit-todo-title-header");
     titleHeader.textContent = "Task Name: ";
     todoDiv.appendChild(titleHeader);
     // title input
     const titleInput = document.createElement("input");
-    // titleInput.setAttribute("id", "edit-todo-title-input");
     titleInput.classList.add("edit-todo-title-input");
     titleInput.value = todoTitle;
     todoDiv.appendChild(titleInput);
 
     // due date header
     const dueDateHeader = document.createElement("p");
-    // dueDateHeader.setAttribute("id", "edit-todo-dueDate-header");
     dueDateHeader.classList.add("edit-todo-dueDate-header");
     dueDateHeader.textContent = "Due Date (both Date and Time required): ";
     todoDiv.appendChild(dueDateHeader);
     // due date input
     const dueDateInput = document.createElement("input");
-    // dueDateInput.setAttribute("id", "edit-todo-dueDate-input");
     dueDateInput.classList.add("edit-todo-dueDate-input");
     dueDateInput.setAttribute("type", "datetime-local");
     dueDateInput.value = todoDueDate;
@@ -333,31 +412,26 @@ export function editTodoMenuView(event) {
 
     // priority header
     const priorityHeader = document.createElement("p");
-    // priorityHeader.setAttribute("id", "edit-todo-priority-header");
     priorityHeader.classList.add("edit-todo-priority-header");
     priorityHeader.textContent = "Priority: ";
     todoDiv.appendChild(priorityHeader);
     // priority select
     const prioritySelect = document.createElement("select");
-    // prioritySelect.setAttribute("id", "edit-todo-priority-select");
     prioritySelect.classList.add("edit-todo-priority-select");
     prioritySelect.setAttribute("name", "priority-level");
     todoDiv.appendChild(prioritySelect);
     // (priority dropdown options)
     const priorityLow = document.createElement("option");
-    // priorityLow.setAttribute("id", "edit-priority-low");
     priorityLow.classList.add("edit-priority-low");
     priorityLow.setAttribute("value", "1");
     priorityLow.textContent = "Low";
     prioritySelect.appendChild(priorityLow);
     const priorityMiddle = document.createElement("option");
-    // priorityMiddle.setAttribute("id", "edit-priority-middle");
     priorityMiddle.classList.add("edit-priority-middle");
     priorityMiddle.setAttribute("value", "2");
     priorityMiddle.textContent = "Middle";
     prioritySelect.appendChild(priorityMiddle);
     const priorityHigh = document.createElement("option");
-    // priorityHigh.setAttribute("id", "edit-priority-high");
     priorityHigh.classList.add("edit-priority-high");
     priorityHigh.setAttribute("value", "3");
     priorityHigh.textContent = "High";
@@ -375,22 +449,19 @@ export function editTodoMenuView(event) {
 
     // description header
     const descriptionHeader = document.createElement("p");
-    // descriptionHeader.setAttribute("id", "edit-todo-description-header");
     descriptionHeader.classList.add("edit-todo-description-header");
     descriptionHeader.textContent = "Description: ";
     todoDiv.appendChild(descriptionHeader);
     // description input
     const descriptionInput = document.createElement("input");
-    // descriptionInput.setAttribute("id", "edit-todo-description-input");
     descriptionInput.classList.add("edit-todo-description-input");
     descriptionInput.value = todoDescription;
     todoDiv.appendChild(descriptionInput);
 
     // button to confirm and create todo item
     const confirmEditTodoBtn = document.createElement("button");
-    // confirmEditTodoBtn.setAttribute("id", "confirm-edit-todo-btn");
     confirmEditTodoBtn.classList.add("confirm-edit-todo-btn");
-    confirmEditTodoBtn.textContent = "Confirm Changes";
+    confirmEditTodoBtn.textContent = "Confirm changes";
     // click Create Todo Item button -> add a todo object to current project and add it to View
     confirmEditTodoBtn.addEventListener("click", confirmEditTodo);
     todoDiv.appendChild(confirmEditTodoBtn);

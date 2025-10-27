@@ -1,10 +1,8 @@
 import { openProjectContent, deleteProject, confirmProjectCreation } from "../controller";
 
 
-const sidebarDiv = document.querySelector("#sidebar");
 const projectsDiv = document.querySelector("#projects");
 const contentDiv = document.querySelector("#content");
-
 
 
 export function createProjectMenuView() {
@@ -57,7 +55,7 @@ export function createProjectTabView(project) {
     deleteBtn.addEventListener('click', deleteProject);
     projectTab.appendChild(deleteBtn);
 
-    // project tab
+    // project button
     const projectBtn = document.createElement("button");
     projectBtn.classList.add("project-btn");
     projectBtn.textContent = project.title;
@@ -67,12 +65,18 @@ export function createProjectTabView(project) {
 }
 
 
+export function editProjectSidebarView(projectIdx, newTitle) {
+    // projectsDiv    -> project tab div        -> project button
+    projectsDiv.children.item(projectIdx).children.item(1).textContent = newTitle;
+}
+
+
 export function deleteProjectTabView(projectID, projectIdx) {
     // remove from View
     removeChildAtIndex(projectsDiv, projectIdx);
 
     // also reset content if project was just deleted
-    const curContentTitle = document.querySelector("#project-title");
+    const curContentTitle = document.querySelector("#project-details-div");
     if(curContentTitle != null && curContentTitle.classList.contains(projectID)) {
         contentDiv.textContent = '';
     }

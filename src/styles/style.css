@@ -111,48 +111,56 @@ body {
     display: flex;
     flex-direction: column;
 }
-#content > #project-title {
+#project-details-div {
+    margin-bottom: 20px;
+}
+#project-details-div > * {
+    margin-bottom: 10px;
+}
+#project-title {
     font-size: 30px;
-    margin-bottom: 20px;
 }
-#content > #project-description {
+#project-description {
     font-size: 22px;
-    margin-bottom: 30px;
 }
-#content > #add-todo-div {
+#project-edit-btn {
+    margin-bottom: 10px;
+}
+
+#add-todo-div {
     margin-bottom: 20px;
 }
-#content > #add-todo-btn {
-    font-size: 16px;
-    width: min-content;
+#add-todo-btn {
+    /* font-size: 14px; */
+    /* width: min-content; */
 }
-#content > #add-todo-div > * {
+#add-todo-div > * {
     margin-bottom: 4px;
 }
-#content .todo-div {
+.todo-div {
     font-size: 18px;
     margin-bottom: 20px;
 }
-#content .todo-div > * {
+.todo-div > * {
     margin-bottom: 4px;
 }
-#content .todo-title {
+.todo-title {
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
 }
-#content .todo-edit-btn, #content .todo-delete-btn {
+.todo-edit-btn, .todo-delete-btn {
     border: none;
 	cursor: pointer;
 	outline: inherit;
 
     padding: 4px;
 }
-#content .todo-edit-btn {
+.todo-edit-btn {
     background: rgb(78, 78, 78);
     color: white;
 }
-#content .todo-delete-btn {
+.todo-delete-btn {
     background: red;
     color: white;
 }
