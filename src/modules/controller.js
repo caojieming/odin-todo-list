@@ -2,27 +2,50 @@ import { Project, projectList, getSampleProjects, addProjectToListModel, removeP
 import { Todo } from "./models/todo.js";
 import { createProjectMenuView, createProjectTabView, editProjectSidebarView, deleteProjectTabView } from "./views/sidebar.js";
 import { openProjectContentView, editProjectContentView, createTodoItemView, deleteTodoItemView, editTodoItemView } from "./views/content.js";
+import { loadStorage, saveToStorage, storageAvailable } from "./models/local-storage.js";
 
 /*
 Todo list, roughly in order:
-- make project title + description editable
+- clean up UI/make pretty
 - make todos sortable by priority
 */
 
 
 export function init() {
-    // generate sample project models
-    const sampleProjects = getSampleProjects();
+    // check if there is local storage support
+    if(storageAvailable("localStorage")) {
+        // if there is something stored locally, load it
+        if(localStorage.getItem("storedProjects")) { 
+            loadStorage();
+        }
+    }
+    
+    // generate sample project models if projectList is empty (nothing loaded from local storage)
+    if(projectList.length === 0) {
+        const sampleProjects = getSampleProjects();
+        for(let i = 0; i < sampleProjects.length; i++) {
+            projectList.push(sampleProjects[i]);
+        }
+    }
 
-    // update projects in view
-    for(var i = 0; i < sampleProjects.length; i++) {
-        addProject(sampleProjects[i]);
+    // update projects in view (assuming model has projects)
+    for(var i = 0; i < projectList.length; i++) {
+        createProjectTabView(projectList[i]);
     }
 
     // click "+" on sidebar (create project button) -> open create project content
     const createProjectBtn = document.querySelector("#create-project-btn");
     createProjectBtn.addEventListener("click", createProjectMenuView);
 
+
+    // run saveToStorage on webpage close/reload
+    window.addEventListener("beforeunload", saveToStorage);
+    // let targetProxy = new Proxy(projectList, {
+    //     set: function (target, key, value) {
+    //         saveToStorage();
+    //         return true;
+    //     }
+    // });
 }
 
 
