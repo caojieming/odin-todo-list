@@ -1,7 +1,7 @@
 /* useful for dev purposes, remove when done */
-* {
+/* * {
     outline: 1px solid red;
-}
+} */
 
 /* removes annoying default margins of paragraphs */
 p {
@@ -53,16 +53,23 @@ body {
 #sidebar-top {
     display: flex;
     justify-content: center;
-    gap: 16px;
+    gap: 40px;
+
+    /* makes underline under this div */
+    padding-bottom: 4px;
+    box-shadow: 0 1px 0 lightgray;
 }
 #top-title {
     font-size: 30px;
 }
 #create-project-btn {
-    font-size: 24px;
-    border: 1px solid gray;
-    width: 36px;
-    height: 36px;
+    font-size: 26px;
+    /* border: 1px solid gray; */
+    width: 40px;
+    color: inherit;
+    background-color: inherit;
+	border: none;
+	cursor: pointer;
 }
 
 /* sidebar projects section */
@@ -73,9 +80,14 @@ body {
 /* individual project tabs */
 .project-tab {
     display: flex;
+    justify-content: space-between;
+
     margin-bottom: 20px;
     /* if a project title is too long, hides it */
     overflow: hidden;
+
+    /* outline: 1px solid lightgray; */
+    box-shadow: 0 0 3px gray;
 }
 .project-btn, .delete-project-btn {
     font-size: 16px;
@@ -84,23 +96,22 @@ body {
 	color: inherit;
 	border: none;
 	cursor: pointer;
-	outline: inherit;
 
-    margin-right: auto;
+    /* margin-right: auto; */
 }
 .delete-project-btn {
     background: red;
     color: white;
+    width: 10%;
 }
 .project-btn {
     background: none;
     text-wrap: wrap;
     /* this is supposed to text wrap singular words that are too long, but doesn't seem to work */
     overflow-wrap: break-word;
-    padding-right: 20px;
-    padding-left: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
+    width: 90%;
 }
 
 
@@ -112,10 +123,13 @@ body {
     flex-direction: column;
 }
 #project-details-div {
+    padding: 10px;
     margin-bottom: 20px;
+    box-shadow: 0 0 2px gray;
 }
-#project-details-div > * {
+#project-details-div > *:not(:last-child) {
     margin-bottom: 10px;
+    box-shadow: 0 1px 0 lightgray;
 }
 #project-title {
     font-size: 30px;
@@ -129,20 +143,31 @@ body {
 
 #add-todo-div {
     margin-bottom: 20px;
+    padding: 10px;
+    box-shadow: 0 0 2px gray;
 }
 #add-todo-btn {
     /* font-size: 14px; */
     /* width: min-content; */
 }
-#add-todo-div > * {
+#add-todo-div > *:not(:last-child) {
     margin-bottom: 4px;
+}
+
+#todo-list-div {
+    box-shadow: 0 0 2px gray;
+    padding: 10px;
 }
 .todo-div {
     font-size: 18px;
     margin-bottom: 20px;
+
+    box-shadow: 0 0 1px gray;
+    padding: 10px;
 }
-.todo-div > * {
-    margin-bottom: 4px;
+.todo-div > *:not(:last-child) {
+    box-shadow: 0 1px 0 lightgray;
+    margin-bottom: 6px;
 }
 .todo-title {
     font-size: 20px;

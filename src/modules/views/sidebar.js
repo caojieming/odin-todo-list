@@ -50,7 +50,7 @@ export function createProjectTabView(project) {
     // delete button
     const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete-project-btn");
-    deleteBtn.textContent = "Delete";
+    deleteBtn.textContent = "X";
     // click delete button -> removes project from projectList model and view
     deleteBtn.addEventListener('click', deleteProject);
     projectTab.appendChild(deleteBtn);
