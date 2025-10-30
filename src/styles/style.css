@@ -86,7 +86,6 @@ body {
     /* if a project title is too long, hides it */
     overflow: hidden;
 
-    /* outline: 1px solid lightgray; */
     box-shadow: 0 0 3px gray;
 }
 .project-btn, .delete-project-btn {
@@ -145,10 +144,6 @@ body {
     margin-bottom: 20px;
     padding: 10px;
     box-shadow: 0 0 2px gray;
-}
-#add-todo-btn {
-    /* font-size: 14px; */
-    /* width: min-content; */
 }
 #add-todo-div > *:not(:last-child) {
     margin-bottom: 4px;

@@ -101,7 +101,7 @@ export function openProjectContent(event) {
 }
 
 
-// event function
+// event function, updating project details in model and view
 export function confirmEditProject(event) {
     // edit btn -> project details div
     const element = event.currentTarget;
@@ -124,7 +124,7 @@ export function confirmEditProject(event) {
 }
 
 
-// event function
+// event function, creating todo in model and view
 export function confirmCreateTodo() {
     const todoTitle = document.querySelector("#todo-title-input").value;
     const todoDueDate = document.querySelector("#todo-dueDate-input").value;
@@ -144,7 +144,7 @@ export function confirmCreateTodo() {
 }
 
 
-// event function
+// event function, updating todo details in model and view
 export function confirmEditTodo(event) {
     // edit btn -> todoDiv -> todoListDiv
     const element = event.currentTarget;
@@ -173,7 +173,7 @@ export function confirmEditTodo(event) {
 }
 
 
-// event function
+// event function, removing todo from model and view
 export function deleteTodo(event) {
     const element = event.currentTarget;
     

@@ -40,6 +40,7 @@ export function createProjectMenuView() {
 }
 
 
+// creates a project tab in sidebar view
 export function createProjectTabView(project) {
     // create project tab div
     const projectTab = document.createElement("div");
@@ -65,12 +66,14 @@ export function createProjectTabView(project) {
 }
 
 
+// updates project title in sidebar view
 export function editProjectSidebarView(projectIdx, newTitle) {
     // projectsDiv    -> project tab div        -> project button
     projectsDiv.children.item(projectIdx).children.item(1).textContent = newTitle;
 }
 
 
+// removes project from sidebar view
 export function deleteProjectTabView(projectID, projectIdx) {
     // remove from View
     removeChildAtIndex(projectsDiv, projectIdx);

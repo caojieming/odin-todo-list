@@ -127,6 +127,7 @@ export function editProjectContentView(newTitle, newDescription) {
 }
 
 
+// creates/adds todo to view
 export function createTodoItemView(todo) {
     const todoListDiv = document.querySelector("#todo-list-div");
 
@@ -358,6 +359,7 @@ function createTodoMenuView() {
 }
 
 
+// removes todo from view
 export function deleteTodoItemView(todoIdx) {
     const todoListDiv = document.querySelector("#todo-list-div");
 
@@ -373,6 +375,7 @@ export function deleteTodoItemView(todoIdx) {
 }
 
 
+// adds todo editing menu to view
 export function editTodoMenuView(event) {
     // replace todoDiv elements with createTodoMenu elements, but they already have values (previous values)
     const element = event.currentTarget;
@@ -468,6 +471,7 @@ export function editTodoMenuView(event) {
 }
 
 
+// updates todo in view
 export function editTodoItemView(todoIdx, todo) {
     const todoListDiv = document.querySelector("#todo-list-div");
     const todoDivs = todoListDiv.children;
